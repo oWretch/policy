@@ -1,0 +1,7 @@
+{
+  "auto_install_extensions": {
+    "asciidoc": true
+  },
+  "ensure_final_newline_on_save": true,
+  "format_on_save": "on"
+}

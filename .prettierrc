@@ -1,0 +1,14 @@
+trailingComma: all
+tabWidth: 2
+endOfLine: lf
+printWidth: 80
+proseWrap: always
+overrides:
+  - files: .prettierrc
+    options:
+      parser: yaml
+  - files: policyAssignments/ALZ/**/*.jsonc
+    # Set the defaults to what is produced by the ALZ tool
+    options:
+      endOfLine: crlf
+      tabWidth: 4
