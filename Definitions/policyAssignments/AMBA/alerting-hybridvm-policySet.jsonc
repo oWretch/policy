@@ -29,6 +29,7 @@
     "HybridVMPercentMemoryAutoResolveTime": "00:10:00",
     "HybridVMHeartBeatRGPolicyEffect": "deployIfNotExists",
     "HybridVMDataDiskWriteLatencyPolicyEffect": "deployIfNotExists",
+    // prettier-ignore
     "HybridVMDataDiskWriteLatencyComputersToInclude": [
       "*"
     ],
@@ -60,6 +61,7 @@
     "HybridVMNetworkOutAlertState": "true",
     "HybridVMDataDiskSpaceTimeAggregation": "Count",
     "HybridVMOSDiskWriteLatencyEvaluationPeriods": "1",
+    // prettier-ignore
     "HybridVMOSDiskReadLatencyComputersToInclude": [
       "*"
     ],
@@ -82,6 +84,7 @@
     "HybridVMHeartBeatRGTimeAggregation": "Count",
     "HybridVMDisconnectedAlertEvaluationPeriods": "1",
     "HybridVMDataDiskSpaceAutoResolve": "true",
+    // prettier-ignore
     "HybridVMOSDiskWriteLatencyComputersToInclude": [
       "*"
     ],
@@ -149,10 +152,12 @@
     "HybridVMOSDiskWriteLatencyFailingPeriods": "1",
     "HybridVMDataDiskWriteLatencyEvaluationFrequency": "PT5M",
     "HybridVMPercentMemoryAutoResolve": "true",
+    // prettier-ignore
     "HybridVMOSDiskSpaceComputersToInclude": [
       "*"
     ],
     "HybridVMDisconnectedAlertTimeAggregation": "Count",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -170,6 +175,7 @@
     "HybridVMDataDiskWriteLatencyAutoResolve": "true",
     "HybridVMNetworkInThreshold": "10000000",
     "HybridVMDataDiskSpaceAlertState": "true",
+    // prettier-ignore
     "HybridVMDataDiskReadLatencyComputersToInclude": [
       "*"
     ],
@@ -181,6 +187,7 @@
     "HybridVMDataDiskReadLatencyThreshold": "30",
     "HybridVMNetworkInEvaluationPeriods": "1",
     "HybridVMDataDiskSpaceAutoMitigate": "true",
+    // prettier-ignore
     "HybridVMNetworkOutComputersToInclude": [
       "*"
     ],
@@ -189,6 +196,7 @@
     "HybridVMDataDiskReadLatencyAlertState": "true",
     "HybridVMNetworkOutTimeAggregation": "Count",
     "HybridVMDisconnectedAlertFailingPeriods": "1",
+    // prettier-ignore
     "HybridVMNetworkInComputersToInclude": [
       "*"
     ],
@@ -209,8 +217,11 @@
     "HybridVMOSDiskSpaceWindowSize": "PT15M"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-landingzones"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones"
     ]
   }
 }

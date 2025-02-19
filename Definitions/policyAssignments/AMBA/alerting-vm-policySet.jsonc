@@ -25,6 +25,7 @@
     "VMPercentMemoryAutoResolveTime": "00:10:00",
     "ALZMonitorResourceGroupLocation": "eastus",
     "VMPercentMemoryWindowSize": "PT15M",
+    // prettier-ignore
     "VMDataDiskReadLatencyComputersToInclude": [
       "*"
     ],
@@ -41,6 +42,7 @@
     "VMHeartBeatRGTimeAggregation": "Count",
     "VMPercentCPUFailingPeriods": "1",
     "VMDataDiskSpaceWindowSize": "PT15M",
+    // prettier-ignore
     "VMNetworkInComputersToInclude": [
       "*"
     ],
@@ -63,6 +65,7 @@
     "VMOSDiskWriteLatencyTimeAggregation": "Count",
     "VMNetworkOutThreshold": "10000000",
     "VMDataDiskWriteLatencyEvaluationFrequency": "PT5M",
+    // prettier-ignore
     "VMDataDiskWriteLatencyComputersToInclude": [
       "*"
     ],
@@ -75,6 +78,7 @@
     "VMNetworkOutAutoResolve": "true",
     "VMOSDiskReadLatencyAutoMitigate": "true",
     "VMOSDiskWriteLatencyAutoResolveTime": "00:10:00",
+    // prettier-ignore
     "VMOSDiskWriteLatencyComputersToInclude": [
       "*"
     ],
@@ -125,6 +129,7 @@
     "VMDataDiskSpaceOperator": "GreaterThan",
     "VMOSDiskReadLatencyWindowSize": "PT15M",
     "VMPercentCPUPolicyEffect": "deployIfNotExists",
+    // prettier-ignore
     "VMOSDiskSpaceComputersToInclude": [
       "*"
     ],
@@ -132,6 +137,7 @@
     "VMOSDiskWriteLatencyAlertState": "true",
     "BYOUserAssignedManagedIdentityResourceId": "",
     "VMOSDiskReadLatencyOperator": "GreaterThan",
+    // prettier-ignore
     "VMHeartBeatRGComputersToInclude": [
       "*"
     ],
@@ -151,6 +157,7 @@
     "VMDataDiskReadLatencyEvaluationPeriods": "1",
     "VMDataDiskReadLatencyEvaluationFrequency": "PT5M",
     "VMPercentMemoryPolicyEffect": "deployIfNotExists",
+    // prettier-ignore
     "VMNetworkOutComputersToInclude": [
       "*"
     ],
@@ -158,6 +165,7 @@
     "VMDataDiskSpaceAlertState": "true",
     "VMDataDiskSpaceAutoMitigate": "true",
     "VMDataDiskReadLatencyAutoResolveTime": "00:10:00",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -178,6 +186,7 @@
     "VMDataDiskReadLatencyFailingPeriods": "1",
     "VMHeartBeatRGWindowSize": "PT6H",
     "VMDataDiskSpacePolicyEffect": "deployIfNotExists",
+    // prettier-ignore
     "VMOSDiskReadLatencyComputersToInclude": [
       "*"
     ],
@@ -201,8 +210,19 @@
     "VMOSDiskSpaceFailingPeriods": "1"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-landingzones"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones",
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-platform"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones",
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-platform"
+    ],
+    "Security-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-security"
+    ],
+    "Security-Prod": [
+      "/providers/Microsoft.Management/managementGroups/security"
     ]
   }
 }

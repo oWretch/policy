@@ -23,6 +23,7 @@
     "activityUDRUpdateAlertState": "true",
     "activityNSGDeletePolicyEffect": "deployIfNotExists",
     "ALZMonitorResourceGroupLocation": "eastus",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -38,8 +39,11 @@
     "ALZMonitorDisableTagName": "MonitorDisable"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-landingzones"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones"
     ]
   }
 }

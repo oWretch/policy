@@ -22,6 +22,7 @@
   "parameters": {
     "BYOAlertProcessingRule": "",
     "ALZLogicappResourceId": "",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -54,8 +55,17 @@
     "BYOActionGroup": []
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|"
+    ],
+    "Security-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-security"
+    ],
+    "Security-Prod": [
+      "/providers/Microsoft.Management/managementGroups/security"
     ]
   }
 }

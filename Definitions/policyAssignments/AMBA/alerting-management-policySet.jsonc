@@ -28,6 +28,7 @@
     "LAWDailyCapLimitFailingPeriods": "1",
     "ALZManagementSubscriptionId": "8da8d616-a90e-446a-9098-ad7381ce56a7",
     "LAWDailyCapLimitTimeAggregation": "Count",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -67,8 +68,17 @@
     "LAWDailyCapLimitOperator": "GreaterThan"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-management"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-management"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-management"
+    ],
+    "Security-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-security"
+    ],
+    "Security-Prod": [
+      "/providers/Microsoft.Management/managementGroups/security"
     ]
   }
 }

@@ -21,6 +21,7 @@
   },
   "parameters": {
     "RVBackupHealthMonitorPolicyEffect": "modify",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -30,8 +31,19 @@
     "ALZMonitorDisableTagName": "MonitorDisable"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-landingzones"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones",
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-platform"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones",
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-platform"
+    ],
+    "Security-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-security"
+    ],
+    "Security-Prod": [
+      "/providers/Microsoft.Management/managementGroups/security"
     ]
   }
 }

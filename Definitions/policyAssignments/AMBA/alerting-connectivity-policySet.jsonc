@@ -230,6 +230,7 @@
     "VnetGwTunnelEgressPacketDropCountAlertSeverity": "1",
     "PDNSZQueryVolumeThreshold": "500",
     "PIPDDoSAttackAlertSeverity": "1",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -298,8 +299,11 @@
     "PDNSZRegistrationCapacityUtilEvaluationFrequency": "PT1H"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-connectivity"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-connectivity"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-connectivity"
     ]
   }
 }

@@ -61,6 +61,7 @@
     "CDNPPercentage4XXWindowSize": "PT5M",
     "FDBackendHealthAlertState": "true",
     "PIPVIPAvailabilityWindowSize": "PT5M",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -158,8 +159,11 @@
     "AGWUnhealthyHostCountWindowSize": "PT5M"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-landingzones"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones"
     ]
   }
 }

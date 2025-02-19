@@ -29,6 +29,7 @@
     "KvAvailabilityEvaluationFrequency": "PT1M",
     "KVRequestWindowSize": "PT5M",
     "KVCapacityAlertSeverity": "1",
+    // prettier-ignore
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
@@ -73,8 +74,11 @@
     "ALZMonitorDisableTagName": "MonitorDisable"
   },
   "scope": {
-    "amba": [
-      "/providers/Microsoft.Management/managementGroups/amba-identity"
+    "LandingZone-Dev": [
+      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-identity"
+    ],
+    "LandingZone-Prod": [
+      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-identity"
     ]
   }
 }
