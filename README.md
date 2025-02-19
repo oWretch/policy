@@ -50,6 +50,17 @@ be made before the initial deployment. They are as follows:
 - `|IntermediateRootManagementGroup|` - Replace with the short name of the
   intermediate root management group.
 
+## Policy Maintenance
+
+Both the ALZ and AMBA policies are maintained by Microsoft. To make it easier to
+keep these updated, there are pipelines for both GitHub and Azure DevOps which
+will sync the latest policies from Microsoft and raise a pull request on `main`
+if there are changes.
+
+For this to work in GitHub, the "Allow GitHub Actions to create and approve pull
+requests" permission to be enabled in the repository settings. This can be found
+under "Actions" > "General" > "Workflow permissions".
+
 [alz-policies]:
   https://aka.ms/alz/policies
   "Cloud Adoption Framework Azure Landing Zones Policies"
