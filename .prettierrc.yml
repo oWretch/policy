@@ -10,3 +10,9 @@ overrides:
       endOfLine: crlf
       tabWidth: 4
       trailingComma: none
+  - files: Definitions/policyAssignments/AMBA/*.jsonc
+    # Set the defaults to what is produced by the AMBA export
+    options:
+      endOfLine: lf
+      tabWidth: 2
+      trailingComma: none
