@@ -2,8 +2,11 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Sandbox/",
     "scope": {
-        "tenant1": [ // Replace with your EPAC environment name and validate the management group listed below exists
-            "/providers/Microsoft.Management/managementGroups/sandbox"
+        "LandingZone-Dev": [
+            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-sandbox"
+        ],
+        "LandingZone-Prod": [
+            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-sandbox"
         ]
     },
     "children": [

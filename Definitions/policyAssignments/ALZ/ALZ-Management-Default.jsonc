@@ -2,8 +2,11 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Management/",
     "scope": {
-        "tenant1": [ // Replace with your EPAC environment name and validate the management group listed below exists
-            "/providers/Microsoft.Management/managementGroups/management"
+        "LandingZone-Dev": [
+            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-management"
+        ],
+        "LandingZone-Prod": [
+            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-management"
         ]
     },
     "parameters": {

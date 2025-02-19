@@ -2,10 +2,19 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "Guardrails",
     "scope": {
-        "tenant1": [ // Replace with your EPAC environment name and validate the management group listed below exists
-            // By default in the portal experience the landing zones and platform management groups receive these policy assignments. Adjust as required.
-            "/providers/Microsoft.Management/managementGroups/landingzones",
-            "/providers/Microsoft.Management/managementGroups/platform"
+        "LandingZone-Dev": [
+            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones",
+            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-platform"
+        ],
+        "LandingZone-Prod": [
+            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones",
+            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-platform"
+        ],
+        "Security-Dev": [
+            "/providers/Microsoft.Management/managementGroups/dev-security"
+        ],
+        "Security-Prod": [
+            "/providers/Microsoft.Management/managementGroups/security"
         ]
     },
     "children": [

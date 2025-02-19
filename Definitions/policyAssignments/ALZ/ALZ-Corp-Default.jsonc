@@ -2,8 +2,11 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Corp/",
     "scope": {
-        "tenant1": [ // Replace with your EPAC environment name and validate the management group listed below exists
-            "/providers/Microsoft.Management/managementGroups/corp"
+        "LandingZone-Dev": [
+            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-corp"
+        ],
+        "LandingZone-Prod": [
+            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-corp"
         ]
     },
     "children": [
@@ -39,7 +42,7 @@
                         "displayName": "Deploy Private DNS Zones"
                     },
                     "parameters": {
-                        // Replace --DNSZonePrefix-- with a value similar to 
+                        // Replace --DNSZonePrefix-- with a value similar to
                         // "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myorg-dns/providers/Microsoft.Network/privateDnsZones/"
                         // but modify to reference your connectivity subscription.
                         // Also update additionalRoleAssignments block to ensure your connectivity subscription Id is referenced.
