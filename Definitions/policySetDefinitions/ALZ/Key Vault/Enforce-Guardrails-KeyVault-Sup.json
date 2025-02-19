@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-KeyVault-Sup",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce additional recommended guardrails for Key Vault",
     "description": "This policy initiative is a group of policies that ensures Key Vault is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Key Vault",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -35,6 +34,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Modify-KV-PublicNetworkAccess",
+        "definitionVersion": "2.*.*-preview",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -45,6 +45,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-KV-Fw",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -55,5 +56,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-KeyVault-Sup"
 }

@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-Network",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Network and Networking services",
     "description": "This policy initiative is a group of policies that ensures Network and Networking services are compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Network",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -263,12 +262,14 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Deny-Nsg-GW-subnet",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {},
         "policyDefinitionName": "35f9c03a-cc27-418e-9c0c-539ff999d010"
       },
       {
         "policyDefinitionReferenceId": "Deny-VPN-AzureAD",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -279,6 +280,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Waf-Afd-Enabled",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -289,6 +291,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Waf-IDPS",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -299,6 +302,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-FW-AllIDPSS",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -309,6 +313,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-FW-EmpIDPSBypass",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -319,6 +324,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-FW-TLS-Inspection",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -329,6 +335,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-FW-TLS-AllApp",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -339,6 +346,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Waf-AppGw-mode",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -352,6 +360,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Waf-Fw-rules",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -362,6 +371,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Waf-mode",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -375,6 +385,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-vNet-DDoS",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -388,18 +399,21 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Ip-Forwarding",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {},
         "policyDefinitionName": "88c0b9da-ce96-4b03-9635-f29a937e2900"
       },
       {
         "policyDefinitionReferenceId": "Deny-vNic-Pip",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {},
         "policyDefinitionName": "83a86a26-fd1f-447c-b59d-e51f44264114"
       },
       {
         "policyDefinitionReferenceId": "Deny-AppGw-Without-Waf",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -410,6 +424,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Subnet-Without-Udr",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -420,6 +435,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Subnet-Without-NSG",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -430,6 +446,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Subnet-with-Service-Endpoints",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -440,6 +457,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Mgmt-From-Internet",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -453,6 +471,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-AppGw-Without-Tls",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -463,6 +482,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Udr",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -482,6 +502,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Nsg",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -522,5 +543,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Network"
 }

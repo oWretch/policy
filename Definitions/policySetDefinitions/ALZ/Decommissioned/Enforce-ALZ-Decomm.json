@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-ALZ-Decomm",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce policies in the Decommissioned Landing Zone",
     "description": "Enforce policies in the Decommissioned Landing Zone.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Decommissioned",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -28,6 +27,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "DecomDenyResources",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "listOfResourceTypesAllowed": {
             "value": "[parameters('listOfResourceTypesAllowed')]"
@@ -38,11 +38,13 @@
       },
       {
         "policyDefinitionReferenceId": "DecomShutdownMachines",
+        "definitionVersion": "1.*.*",
         "parameters": {},
         "groupNames": [],
         "policyDefinitionName": "Deploy-Vm-autoShutdown"
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-ALZ-Decomm"
 }

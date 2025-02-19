@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-BotService",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Bot Service",
     "description": "This policy initiative is a group of policies that ensures Bot Service is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Bot Service",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -60,6 +59,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Deny-BotService-Valid-Uri",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -70,6 +70,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-BotService-Isolated-Mode",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -80,6 +81,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-BotService-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -90,6 +92,7 @@
       },
       {
         "policyDefinitionReferenceId": "Audit-BotService-Private-Link",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -100,5 +103,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-BotService"
 }

@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-EventGrid",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Event Grid",
     "description": "This policy initiative is a group of policies that ensures Event Grid is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Event Grid",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -86,6 +85,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Modify-EventGrid-Partner-Namespace-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -96,6 +96,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-EventGrid-Domain-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -106,6 +107,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-EventGrid-Topic-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -116,6 +118,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-EventGrid-Topic-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -126,6 +129,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-EventGrid-Partner-Namespace-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -136,6 +140,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-EventGrid-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -146,6 +151,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-EventGrid-Domain-Public-Network-Access",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -156,6 +162,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-EventGrid-Topic-Public-Network-Access",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -166,5 +173,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-EventGrid"
 }

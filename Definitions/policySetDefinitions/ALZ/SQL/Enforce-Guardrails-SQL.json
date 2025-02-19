@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-SQL",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for SQL and SQL Managed Instance",
     "description": "This policy initiative is a group of policies that ensures SQL and SQL Managed Instance is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "SQL",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -53,6 +52,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Dine-Sql-Managed-Defender",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -63,6 +63,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Sql-Aad-Only",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -73,6 +74,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Sql-Managed-Aad-Only",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -83,12 +85,14 @@
       },
       {
         "policyDefinitionReferenceId": "Dine-Sql-Adv-Data",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {},
         "policyDefinitionName": "6134c3db-786f-471e-87bc-8f479dc890f6"
       },
       {
         "policyDefinitionReferenceId": "Modify-Sql-PublicNetworkAccess",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -99,5 +103,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-SQL"
 }

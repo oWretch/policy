@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-CognitiveServices",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Cognitive Services",
     "description": "This policy initiative is a group of policies that ensures Cognitive Services is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Cognitive Services",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -95,6 +94,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Deny-CognitiveSearch-SKU",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -105,6 +105,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-CongitiveSearch-LocalAuth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -115,6 +116,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-CogntiveSearch-LocalAuth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -125,6 +127,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-CogntiveSearch-PublicEndpoint",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -135,6 +138,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Cognitive-Services-Public-Network-Access",
+        "definitionVersion": "3.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -145,6 +149,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Cognitive-Services-Managed-Identity",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -155,6 +160,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Cognitive-Services-Customer-Storage",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -165,6 +171,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Cognitive-Services-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -175,6 +182,7 @@
       },
       {
         "policyDefinitionReferenceId": "Aine-Cognitive-Services-Resource-Logs",
+        "definitionVersion": "5.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -185,5 +193,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-CognitiveServices"
 }

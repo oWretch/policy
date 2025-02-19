@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-Storage",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Storage Account",
     "description": "This policy initiative is a group of policies that ensures Storage is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Storage",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -227,6 +226,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Deny-Storage-CopyScope",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -240,6 +240,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-ServicesEncryption",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -250,6 +251,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-LocalUser",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -270,6 +272,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-NetworkAclsBypass",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -283,6 +286,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-ResourceAccessRulesTenantId",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -293,6 +297,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-ResourceAccessRulesResourceId",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -303,6 +308,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-NetworkAclsVirtualNetworkRules",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -313,6 +319,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-ContainerDeleteRetentionPolicy",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -326,6 +333,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-CorsRules",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -336,6 +344,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-Account-Encryption",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -346,6 +355,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-Cross-Tenant",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -356,6 +366,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-Shared-Key",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -366,6 +377,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-Infra-Encryption",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -376,6 +388,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-Classic",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -386,6 +399,7 @@
       },
       {
         "policyDefinitionReferenceId": "Dine-Storage-Threat-Protection",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -396,6 +410,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-Restrict-NetworkRules",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -406,6 +421,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-NetworkRules",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -416,6 +432,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Storage-Account-Keys-Expire",
+        "definitionVersion": "3.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -426,6 +443,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Storage-FileSync-PublicEndpoint",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -436,6 +454,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Blob-Storage-Account-PublicEndpoint",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -446,6 +465,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Storage-Account-PublicEndpoint",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -456,5 +476,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Storage"
 }

@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-MySQL",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for MySQL",
     "description": "This policy initiative is a group of policies that ensures MySQL is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "MySQL",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -36,6 +35,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Dine-MySql-Adv-Threat-Protection",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -46,6 +46,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-MySql-Infra-Encryption",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -56,5 +57,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-MySQL"
 }

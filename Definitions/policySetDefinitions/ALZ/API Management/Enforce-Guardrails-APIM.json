@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-APIM",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for API Management",
     "description": "This policy initiative is a group of policies that ensures API Management is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "API Management",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -117,6 +116,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Deny-Apim-without-Kv",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -127,6 +127,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Apim-without-Vnet",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -137,6 +138,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-APIM-TLS",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -147,6 +149,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Apim-Protocols",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -157,6 +160,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Apim-Authn",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -167,6 +171,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Apim-Direct-Endpoint",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -177,6 +182,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Apim-Cert-Validation",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -187,6 +193,7 @@
       },
       {
         "policyDefinitionReferenceId": "Dine-Apim-Public-NetworkAccess",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -197,6 +204,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Apim-Sku-Vnet",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -207,6 +215,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Apim-Version",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -217,6 +226,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Api-subscription-scope",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -227,5 +237,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-APIM"
 }

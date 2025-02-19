@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-VirtualDesktop",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Virtual Desktop",
     "description": "This policy initiative is a group of policies that ensures Virtual Desktop is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Desktop Virtualization",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -35,6 +34,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Modify-Workspace-PublicNetworkAccess",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -45,6 +45,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Hostpool-PublicNetworkAccess",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -55,5 +56,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-VirtualDesktop"
 }

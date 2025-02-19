@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-CosmosDb",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Cosmos DB",
     "description": "This policy initiative is a group of policies that ensures Cosmos DB is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Cosmos DB",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -61,6 +60,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Modify-CosmosDb-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -71,6 +71,7 @@
       },
       {
         "policyDefinitionReferenceId": "Dine-CosmosDb-Atp",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -81,6 +82,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-CosmosDb-Fw-Rules",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -91,6 +93,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-CosmosDb-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -101,12 +104,14 @@
       },
       {
         "policyDefinitionReferenceId": "Append-CosmosDb-Metadata",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {},
         "policyDefinitionName": "4750c32b-89c0-46af-bfcb-2e4541a818d5"
       },
       {
         "policyDefinitionReferenceId": "Modify-CosmosDb-Public-Network-Access",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -117,5 +122,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-CosmosDb"
 }

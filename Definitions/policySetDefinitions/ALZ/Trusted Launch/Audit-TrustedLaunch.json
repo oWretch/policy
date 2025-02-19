@@ -1,11 +1,10 @@
 {
-  "name": "Audit-TrustedLaunch",
   "properties": {
     "policyType": "Custom",
     "displayName": "Audit virtual machines for Trusted Launch support",
     "description": "Trusted Launch improves security of a Virtual Machine which requires VM SKU, OS Disk & OS Image to support it (Gen 2). To learn more about Trusted Launch, visit https://aka.ms/trustedlaunch.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Trusted Launch",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -32,6 +31,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "AuditDisksOsTrustedLaunch",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -42,6 +42,7 @@
       },
       {
         "policyDefinitionReferenceId": "AuditTrustedLaunchEnabled",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -52,5 +53,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Audit-TrustedLaunch"
 }

@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-ACSB",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce Azure Compute Security Benchmark compliance auditing",
     "description": "Enforce Azure Compute Security Benchmark compliance auditing for Windows and Linux virtual machines.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Guest Configuration",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -41,24 +40,28 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "GcIdentity",
+        "definitionVersion": "4.*.*",
         "parameters": {},
         "groupNames": [],
         "policyDefinitionName": "3cf2ab00-13f1-4d0c-8971-2ac904541a7e"
       },
       {
         "policyDefinitionReferenceId": "GcLinux",
+        "definitionVersion": "3.*.*",
         "parameters": {},
         "groupNames": [],
         "policyDefinitionName": "331e8ea8-378a-410f-a2e5-ae22f38bb0da"
       },
       {
         "policyDefinitionReferenceId": "GcWindows",
+        "definitionVersion": "1.*.*",
         "parameters": {},
         "groupNames": [],
         "policyDefinitionName": "385f5831-96d4-41db-9a3c-cd3af78aaae6"
       },
       {
         "policyDefinitionReferenceId": "WinAcsb",
+        "definitionVersion": "2.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -72,6 +75,7 @@
       },
       {
         "policyDefinitionReferenceId": "LinAcsb",
+        "definitionVersion": "2.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -85,5 +89,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-ACSB"
 }

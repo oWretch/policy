@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-ContainerApps",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Container Apps",
     "description": "This policy initiative is a group of policies that ensures Container Apps is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Container Apps",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -37,6 +36,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Deny-ContainerApp-Vnet-Injection",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -47,6 +47,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerApps-Managed-Identity",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -57,5 +58,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-ContainerApps"
 }

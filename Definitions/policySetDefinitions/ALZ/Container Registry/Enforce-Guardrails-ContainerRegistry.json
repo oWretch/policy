@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-ContainerRegistry",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Container Registry",
     "description": "This policy initiative is a group of policies that ensures Container Apps is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Container Registry",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -122,6 +121,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Modify-ContainerRegistry-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -132,6 +132,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-ContainerRegistry-Repo-Token",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -142,6 +143,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerRegistry-Arm-Audience",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -152,6 +154,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-ContainerRegistry-Arm-Audience",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -162,6 +165,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerRegistry-Sku-PrivateLink",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -172,6 +176,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-ContainerRegistry-Anonymous-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -182,6 +187,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerRegistry-Anonymous-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -192,6 +198,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerRegistry-Exports",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -202,6 +209,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerRegistry-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -212,6 +220,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerRegistry-Repo-Token",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -222,6 +231,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-ContainerRegistry-Unrestricted-Network-Access",
+        "definitionVersion": "2.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -232,6 +242,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-ContainerRegistry-Public-Network-Access",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -242,5 +253,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-ContainerRegistry"
 }

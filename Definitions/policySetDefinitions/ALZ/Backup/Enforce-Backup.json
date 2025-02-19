@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Backup",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce enhanced recovery and backup policies",
     "description": "Enforce enhanced recovery and backup policies on assigned scopes.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Backup",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -56,6 +55,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "BackupBVault-Immutability",
+        "definitionVersion": "1.*.*-preview",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -69,6 +69,7 @@
       },
       {
         "policyDefinitionReferenceId": "BackupRVault-Immutability",
+        "definitionVersion": "1.*.*-preview",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -82,6 +83,7 @@
       },
       {
         "policyDefinitionReferenceId": "BackupBVault-SoftDelete",
+        "definitionVersion": "1.*.*-preview",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -95,6 +97,7 @@
       },
       {
         "policyDefinitionReferenceId": "BackupRVault-SoftDelete",
+        "definitionVersion": "1.*.*-preview",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -108,6 +111,7 @@
       },
       {
         "policyDefinitionReferenceId": "BackupBVault-MUA",
+        "definitionVersion": "1.*.*-preview",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -118,6 +122,7 @@
       },
       {
         "policyDefinitionReferenceId": "BackupRVault-MUA",
+        "definitionVersion": "1.*.*-preview",
         "parameters": {
           "effect": {
             "value": "[parameters('effect')]"
@@ -128,5 +133,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Backup"
 }

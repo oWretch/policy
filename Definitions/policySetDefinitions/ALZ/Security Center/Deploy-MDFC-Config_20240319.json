@@ -1,11 +1,10 @@
 {
-  "name": "Deploy-MDFC-Config_20240319",
   "properties": {
     "policyType": "Custom",
     "displayName": "Deploy Microsoft Defender for Cloud configuration",
     "description": "Deploy Microsoft Defender for Cloud configuration",
     "metadata": {
-      "version": "2.1.0",
+      "version": "2.2.0",
       "category": "Security Center",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "replacesPolicy": "Deploy-MDFC-Config",
@@ -223,11 +222,24 @@
           "displayName": "Effect",
           "description": "Enable or disable the execution of the policy"
         }
+      },
+      "enableTvmCheck": {
+        "type": "String",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
       }
     },
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "defenderForOssDb",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForOssDb')]"
@@ -238,6 +250,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForVM",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForServers')]"
@@ -248,6 +261,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForVMVulnerabilityAssessment",
+        "definitionVersion": "4.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForServersVulnerabilityAssessments')]"
@@ -261,6 +275,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForSqlServerVirtualMachines",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForSqlOnVm')]"
@@ -271,6 +286,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForAppServices",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForAppServices')]"
@@ -281,6 +297,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForStorageAccountsV2",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForStorage')]"
@@ -291,6 +308,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderforContainers",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForContainers')]"
@@ -301,6 +319,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderforKubernetes",
+        "definitionVersion": "4.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForContainers')]"
@@ -314,6 +333,7 @@
       },
       {
         "policyDefinitionReferenceId": "azurePolicyForKubernetes",
+        "definitionVersion": "4.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForContainers')]"
@@ -324,6 +344,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForKeyVaults",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForKeyVault')]"
@@ -334,6 +355,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForArm",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForArm')]"
@@ -344,6 +366,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForSqlPaas",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForSql')]"
@@ -354,6 +377,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForCosmosDbs",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForCosmosDbs')]"
@@ -364,6 +388,7 @@
       },
       {
         "policyDefinitionReferenceId": "defenderForCspm",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('enableAscForCspm')]"
@@ -374,6 +399,7 @@
       },
       {
         "policyDefinitionReferenceId": "securityEmailContact",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "emailSecurityContact": {
             "value": "[parameters('emailSecurityContact')]"
@@ -387,6 +413,7 @@
       },
       {
         "policyDefinitionReferenceId": "ascExport",
+        "definitionVersion": "4.*.*",
         "parameters": {
           "resourceGroupName": {
             "value": "[parameters('ascExportResourceGroupName')]"
@@ -406,11 +433,16 @@
       },
       {
         "policyDefinitionReferenceId": "migrateToMdeTvm",
-        "parameters": {},
+        "parameters": {
+          "effect": {
+            "value": "[parameters('enableTvmCheck')]"
+          }
+        },
         "groupNames": [],
         "policyDefinitionName": "766e621d-ba95-4e43-a6f2-e945db3d7888"
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Deploy-MDFC-Config_20240319"
 }

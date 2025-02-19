@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-Automation",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Automation Account",
     "description": "This policy initiative is a group of policies that ensures Automation Account is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Automation",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -70,6 +69,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Deny-Windows-Vm-HotPatch",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -80,6 +80,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Aa-Managed-Identity",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -90,6 +91,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Aa-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -100,6 +102,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Aa-Variables-Encrypt",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -110,6 +113,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Aa-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -120,6 +124,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Aa-Public-Network-Access",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -130,5 +135,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Automation"
 }

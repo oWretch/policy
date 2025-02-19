@@ -1,11 +1,10 @@
 {
-  "name": "Deploy-Sql-Security_20240529",
   "properties": {
     "policyType": "Custom",
     "displayName": "Deploy SQL Database built-in SQL security configuration",
     "description": "Deploy auditing, Alert, TDE and SQL vulnerability to SQL Databases when it not exist in the deployment",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "SQL",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "replacesPolicy": "Deploy-Sql-Security",
@@ -82,6 +81,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "SqlDbTdeDeploySqlSecurity",
+        "definitionVersion": "2.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('SqlDbTdeDeploySqlSecurityEffect')]"
@@ -92,6 +92,7 @@
       },
       {
         "policyDefinitionReferenceId": "SqlDbSecurityAlertPoliciesDeploySqlSecurity",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('SqlDbSecurityAlertPoliciesDeploySqlSecurityEffect')]"
@@ -102,6 +103,7 @@
       },
       {
         "policyDefinitionReferenceId": "SqlDbAuditingSettingsDeploySqlSecurity",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('SqlDbAuditingSettingsDeploySqlSecurityEffect')]"
@@ -112,6 +114,7 @@
       },
       {
         "policyDefinitionReferenceId": "SqlDbVulnerabilityAssessmentsDeploySqlSecurity",
+        "definitionVersion": "1.*.*",
         "parameters": {
           "effect": {
             "value": "[parameters('SqlDbVulnerabilityAssessmentsDeploySqlSecurityEffect')]"
@@ -128,5 +131,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Deploy-Sql-Security_20240529"
 }

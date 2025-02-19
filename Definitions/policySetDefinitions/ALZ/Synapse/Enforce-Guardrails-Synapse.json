@@ -1,11 +1,10 @@
 {
-  "name": "Enforce-Guardrails-Synapse",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Synapse workspaces",
     "description": "This policy initiative is a group of policies that ensures Synapse workspaces is compliant per regulated Landing Zones.",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Synapse",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -101,6 +100,7 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "Dine-Synapse-Defender",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -111,6 +111,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Synapse-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -121,6 +122,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Synapse-Fw-Rules",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -131,6 +133,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Synapse-Tenant-Access",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -144,6 +147,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Synapse-Data-Traffic",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -154,6 +158,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Synapse-Managed-Vnet",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -164,6 +169,7 @@
       },
       {
         "policyDefinitionReferenceId": "Deny-Synapse-Local-Auth",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -174,6 +180,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Synapse-Tls-Version",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -184,6 +191,7 @@
       },
       {
         "policyDefinitionReferenceId": "Modify-Synapse-Public-Network-Access",
+        "definitionVersion": "1.*.*",
         "groupNames": [],
         "parameters": {
           "effect": {
@@ -194,5 +202,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Synapse"
 }

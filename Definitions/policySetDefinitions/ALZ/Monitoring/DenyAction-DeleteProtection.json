@@ -1,11 +1,10 @@
 {
-  "name": "DenyAction-DeleteProtection",
   "properties": {
     "policyType": "Custom",
     "displayName": "DenyAction Delete - Activity Log Settings and Diagnostic Settings",
     "description": "Enforces DenyAction - Delete on Activity Log Settings and Diagnostic Settings.",
     "metadata": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/Enterprise-Scale/",
       "alzCloudEnvironments": [
@@ -18,17 +17,20 @@
     "policyDefinitions": [
       {
         "policyDefinitionReferenceId": "DenyActionDelete-DiagnosticSettings",
+        "definitionVersion": "1.*.*",
         "parameters": {},
         "groupNames": [],
         "policyDefinitionName": "DenyAction-DiagnosticLogs"
       },
       {
         "policyDefinitionReferenceId": "DenyActionDelete-ActivityLogSettings",
+        "definitionVersion": "1.*.*",
         "parameters": {},
         "groupNames": [],
         "policyDefinitionName": "DenyAction-ActivityLogs"
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "DenyAction-DeleteProtection"
 }
