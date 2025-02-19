@@ -28,6 +28,11 @@ during the pull-request workflow. This allows for the testing of policy changes
 before they are merged into the main branch and deployed to the `Security` and
 `Intermediate Root` management groups.
 
+The assumption of the hierarchy is that the management group names meet the ALZ
+standard naming conventions. The name of the intermediate root group is
+prepended to the name of it's child management groups, separated with a hyphen.
+All the development groups are named with a `dev-` prefix.
+
 ### Management Group Changes
 
 If a customer has multiple tenants, the EPAC Development hierarchy could be
@@ -49,6 +54,17 @@ be made before the initial deployment. They are as follows:
 - `|tenantId|` - Replace with the Entra tenant ID.
 - `|IntermediateRootManagementGroup|` - Replace with the short name of the
   intermediate root management group.
+
+## Policy Maintenance
+
+Both the ALZ and AMBA policies are maintained by Microsoft. To make it easier to
+keep these updated, there are pipelines for both GitHub and Azure DevOps which
+will sync the latest policies from Microsoft and raise a pull request on `main`
+if there are changes.
+
+For this to work in GitHub, the "Allow GitHub Actions to create and approve pull
+requests" permission to be enabled in the repository settings. This can be found
+under "Actions" > "General" > "Workflow permissions".
 
 [alz-policies]:
   https://aka.ms/alz/policies

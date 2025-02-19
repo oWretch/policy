@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/global-settings-schema.json",
+  "pacOwnerId": "|pacOwnerId|",
+  "pacEnvironments": [
+    {
+      "pacSelector": "LandingZone-Dev",
+      "cloud": "AzureCloud",
+      "tenantId": "|tenantId|",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/epacdev-landingzone",
+      "desiredState": {
+        "strategy": "full",
+        "keepDfcSecurityAssignments": false,
+      },
+      "globalNotScopes": [],
+      "managedIdentityLocation": "australiaeast",
+    },
+    {
+      "pacSelector": "LandingZone-Prod",
+      "cloud": "AzureCloud",
+      "tenantId": "|tenantId|",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|",
+      "desiredState": {
+        "strategy": "full",
+        "keepDfcSecurityAssignments": false,
+      },
+      "globalNotScopes": [],
+      "managedIdentityLocation": "australiaeast",
+    },
+    {
+      "pacSelector": "Security-Dev",
+      "cloud": "AzureCloud",
+      "tenantId": "|tenantId|",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/epacdev-security",
+      "desiredState": {
+        "strategy": "full",
+        "keepDfcSecurityAssignments": false,
+      },
+      "globalNotScopes": [],
+      "managedIdentityLocation": "australiaeast",
+    },
+    {
+      "pacSelector": "Security-Prod",
+      "cloud": "AzureCloud",
+      "tenantId": "|tenantId|",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/security",
+      "desiredState": {
+        "strategy": "full",
+        "keepDfcSecurityAssignments": false,
+      },
+      "globalNotScopes": [],
+      "managedIdentityLocation": "australiaeast",
+    },
+  ],
+}
