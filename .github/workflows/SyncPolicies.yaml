@@ -44,7 +44,7 @@ jobs:
         env:
           LatestTag: ${{ steps.latest.outputs.latest }}
         run: |
-          $Current = Get-Content -Path 'policy-versions.json'
+          $Current = Get-Content -Path './policy-versions.json'
                    | ConvertFrom-Json
                    | Select-Object -ExpandProperty alz
           Write-Host "Current policies date: $Current"
@@ -85,11 +85,11 @@ jobs:
           }
 
           # Update the policyDates file
-          $PolicyVersions = Get-Content -Path 'policy-versions.json'
+          $PolicyVersions = Get-Content -Path './policy-versions.json'
                           | ConvertFrom-Json
-          $PolicyVersions.alz = $Latest
+          $PolicyVersions.alz = $env
           $PolicyVersions | ConvertTo-Json
-                          | Set-Content -Path 'policy-versions.json' -Force
+                          | Set-Content -Path './policy-versions.json' -Force
           git add policy-versions.json
 
           # Configure git
@@ -172,18 +172,18 @@ jobs:
               repo: 'amba-export',
               ref : 'main',
             });
-            const latest = latest.data.author.date.split('T')[0];
-            console.log(`Latest ALZ policies date: ${latest}`);
-            core.setOutput('latest', latest);
+            const commitDate = latest.data.commit.author.date.split('T')[0];
+            console.log(`Latest ALZ policies date: ${commitDate}`);
+            core.setOutput('latest', commitDate);
 
       - name: Get Current Release
         id: current
         env:
           Latest: ${{ steps.latest.outputs.latest }}
         run: |
-          $Current = Get-Content -Path 'policy-versions.json'
+          $Current = Get-Content -Path './policy-versions.json'
                    | ConvertFrom-Json
-                   | Select-Object -ExpandProperty amnba
+                   | Select-Object -ExpandProperty amba
           Write-Host "Current policies date: $Current"
           Write-Host "CurrentTag=$Current" >> $env:GITHUB_OUTPUT
 
@@ -207,7 +207,7 @@ jobs:
         run: |
           # Download the latest AMBA policies
           $ZipFile = Join-Path ([System.IO.Path]::GetTempPath()) 'amba-export.zip'
-          $ExtractDir = Join-Path ([System.IO.Path]::GetTempPath()) "amba-export"
+          $ExtractDir = Join-Path ([System.IO.Path]::GetTempPath()) 'amba-export-main'
 
           Invoke-WebRequest -Uri "https://github.com/anwather/amba-export/archive/refs/heads/main.zip" -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" } -OutFile $ZipFile
           Expand-Archive -Path $ZipFile -DestinationPath ([System.IO.Path]::GetTempPath()) -Force
@@ -226,9 +226,9 @@ jobs:
           New-Item -Path $psdDir -ItemType Directory
 
           # Move the AMBA policies to the correct folder
-          Move-Item -Path (Join-Path $ExtractDir 'Definitions/policyAssignments/*') -Destination $pa.FullName -Force
-          Move-Item -Path (Join-Path $ExtractDir 'Definitions/policyDefinitions/*') -Destination $pd.FullName -Force
-          Move-Item -Path (Join-Path $ExtractDir 'Definitions/policySetDefinitions/*') -Destination $psd.FullName -Force
+          Move-Item -Path (Join-Path $ExtractDir 'Definitions/policyAssignments/*') -Destination $paDir -Force
+          Move-Item -Path (Join-Path $ExtractDir 'Definitions/policyDefinitions/*') -Destination $pdDir -Force
+          Move-Item -Path (Join-Path $ExtractDir 'Definitions/policySetDefinitions/*') -Destination $psdDir -Force
 
           # Check if there are any policy changes
           git add $env:PAC_DEFINITIONS_FOLDER
@@ -241,11 +241,11 @@ jobs:
           }
 
           # Update the policyDates file
-          $PolicyVersions = Get-Content -Path 'policy-versions.json'
+          $PolicyVersions = Get-Content -Path './policy-versions.json'
                           | ConvertFrom-Json
           $PolicyVersions.amba = $env:Latest
           $PolicyVersions | ConvertTo-Json
-                          | Set-Content -Path 'policy-versions.json' -Force
+                          | Set-Content -Path './policy-versions.json' -Force
           git add policy-versions.json
 
           # Configure git
@@ -253,8 +253,8 @@ jobs:
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
           # Stage changes and check if policies are updated
-          git commit -m "Update to Enterprise Scale release $ReleaseTag"
-          git push origin alz-policies
+          git commit -m "Update to AMBA Export $ReleaseTag"
+          git push origin amba-policies
 
       - name: Create Pull Request
         uses: actions/github-script@v7
