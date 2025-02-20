@@ -1,4 +1,5 @@
 {
+  "name": "Enforce-Backup",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce enhanced recovery and backup policies",
@@ -133,6 +134,5 @@
       }
     ],
     "policyDefinitionGroups": null
-  },
-  "name": "Enforce-Backup"
+  }
 }

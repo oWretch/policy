@@ -1,4 +1,5 @@
 {
+  "name": "Deploy-MDFC-Config_20240319",
   "properties": {
     "policyType": "Custom",
     "displayName": "Deploy Microsoft Defender for Cloud configuration",
@@ -443,6 +444,5 @@
       }
     ],
     "policyDefinitionGroups": null
-  },
-  "name": "Deploy-MDFC-Config_20240319"
+  }
 }
