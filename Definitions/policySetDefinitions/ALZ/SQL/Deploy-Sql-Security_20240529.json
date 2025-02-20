@@ -1,4 +1,5 @@
 {
+  "name": "Deploy-Sql-Security_20240529",
   "properties": {
     "policyType": "Custom",
     "displayName": "Deploy SQL Database built-in SQL security configuration",
@@ -131,6 +132,5 @@
       }
     ],
     "policyDefinitionGroups": null
-  },
-  "name": "Deploy-Sql-Security_20240529"
+  }
 }
