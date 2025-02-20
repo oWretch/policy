@@ -44,14 +44,6 @@
         },
         "type": "String"
       },
-      "alertResourceGroupName": {
-        "defaultValue": "rg-amba-monitoring-001",
-        "metadata": {
-          "description": "Resource group the alert is placed in",
-          "displayName": "Resource Group Name"
-        },
-        "type": "String"
-      },
       "enabled": {
         "allowedValues": [
           "true",
@@ -61,6 +53,14 @@
         "metadata": {
           "description": "Alert state for the alert",
           "displayName": "Alert State"
+        },
+        "type": "String"
+      },
+      "alertResourceGroupName": {
+        "defaultValue": "rg-amba-monitoring-001",
+        "metadata": {
+          "description": "Resource group the alert is placed in",
+          "displayName": "Resource Group Name"
         },
         "type": "String"
       },
@@ -209,11 +209,11 @@
                 "alertResourceGroupLocation": {
                   "value": "[parameters('alertResourceGroupLocation')]"
                 },
-                "alertResourceGroupName": {
-                  "value": "[parameters('alertResourceGroupName')]"
-                },
                 "enabled": {
                   "value": "[parameters('enabled')]"
+                },
+                "alertResourceGroupName": {
+                  "value": "[parameters('alertResourceGroupName')]"
                 },
                 "alertResourceGroupTags": {
                   "value": "[parameters('alertResourceGroupTags')]"
@@ -230,10 +230,10 @@
                   "alertResourceGroupLocation": {
                     "type": "string"
                   },
-                  "alertResourceGroupName": {
+                  "enabled": {
                     "type": "string"
                   },
-                  "enabled": {
+                  "alertResourceGroupName": {
                     "type": "string"
                   },
                   "alertResourceGroupTags": {
@@ -247,6 +247,18 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
+                "variables": {
+                  "copy": [
+                    {
+                      "name": "varActionGroupIds",
+                      "mode": "serial",
+                      "count": "[length(parameters('BYOActionGroup'))]",
+                      "input": {
+                        "actionGroupId": "[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
+                      }
+                    }
+                  ]
+                },
                 "resources": [
                   {
                     "type": "Microsoft.Resources/resourceGroups",
@@ -260,11 +272,11 @@
                     "type": "Microsoft.Resources/deployments",
                     "properties": {
                       "parameters": {
-                        "alertResourceGroupName": {
-                          "value": "[parameters('alertResourceGroupName')]"
-                        },
                         "enabled": {
                           "value": "[parameters('enabled')]"
+                        },
+                        "alertResourceGroupName": {
+                          "value": "[parameters('alertResourceGroupName')]"
                         },
                         "ALZMonitorActionGroupEmail": {
                           "value": "[parameters('ALZMonitorActionGroupEmail')]"
@@ -275,10 +287,10 @@
                       },
                       "template": {
                         "parameters": {
-                          "alertResourceGroupName": {
+                          "enabled": {
                             "type": "string"
                           },
-                          "enabled": {
+                          "alertResourceGroupName": {
                             "type": "string"
                           },
                           "ALZMonitorActionGroupEmail": {
@@ -289,6 +301,7 @@
                           }
                         },
                         "contentVersion": "1.0.0.0",
+                        "variables": {},
                         "resources": [
                           {
                             "type": "microsoft.insights/activityLogAlerts",
@@ -369,7 +382,6 @@
                             "condition": "[not(empty(parameters('BYOActionGroup')))]"
                           }
                         ],
-                        "variables": {},
                         "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
                       },
                       "mode": "Incremental"
@@ -381,18 +393,6 @@
                     ]
                   }
                 ],
-                "variables": {
-                  "copy": [
-                    {
-                      "name": "varActionGroupIds",
-                      "mode": "serial",
-                      "count": "[length(parameters('BYOActionGroup'))]",
-                      "input": {
-                        "actionGroupId": "[trim(parameters('BYOActionGroup')[copyIndex('varActionGroupIds')])]"
-                      }
-                    }
-                  ]
-                },
                 "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#"
               },
               "mode": "incremental"

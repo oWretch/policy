@@ -1,15 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-definition-schema.json",
-  "name": "Deploy_TM_EndpointHealth_Alert",
+  "name": "Deploy_AG_BackendLastByteResponseTime_Alert",
   "properties": {
-    "displayName": "Deploy Traffic Manager Endpoint Health Alert",
-    "description": "Policy to audit/deploy FTraffic Manager Endpoint Health Health Alert",
+    "displayName": "Deploy AGW BackendLastByteResponseTime Alert",
+    "description": "Policy to audit/deploy Azure Application Gateway BackendLastByteResponseTime Alert",
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
-      "version": "1.2.0",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "Category": "Networking"
+      "version": "1.4.1",
+      "category": "Networking",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -20,7 +20,7 @@
           "PT30M",
           "PT1H"
         ],
-        "defaultValue": "PT5M",
+        "defaultValue": "PT1M",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
@@ -48,6 +48,18 @@
         },
         "type": "String"
       },
+      "autoMitigate": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Auto Mitigate"
+        },
+        "type": "String"
+      },
       "windowSize": {
         "allowedValues": [
           "PT1M",
@@ -63,18 +75,6 @@
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        },
-        "type": "String"
-      },
-      "autoMitigate": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Auto Mitigate"
         },
         "type": "String"
       },
@@ -105,11 +105,19 @@
         },
         "type": "String"
       },
-      "threshold": {
-        "defaultValue": "0.9",
+      "failingPeriods": {
+        "defaultValue": "2",
         "metadata": {
-          "description": "Threshold for the alert",
-          "displayName": "Threshold"
+          "description": "Number of failing periods before alert is fired",
+          "displayName": "Failing Periods"
+        },
+        "type": "String"
+      },
+      "evaluationPeriods": {
+        "defaultValue": "2",
+        "metadata": {
+          "description": "The number of aggregated lookback points.",
+          "displayName": "Evaluation Periods"
         },
         "type": "String"
       },
@@ -124,14 +132,34 @@
           "displayName": "Effect"
         },
         "type": "String"
+      },
+      "alertSensitivity": {
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "defaultValue": "Medium",
+        "metadata": {
+          "description": "Alert Sensitivity for the alert",
+          "displayName": "Alert Sensitivity"
+        },
+        "type": "String"
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Network/trafficmanagerprofiles",
+            "equals": "Microsoft.Network/applicationgateways",
             "field": "type"
+          },
+          {
+            "field": "Microsoft.Network/applicationgateways/sku.name",
+            "In": [
+              "Standard_v2",
+              "WAF_v2"
+            ]
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -146,15 +174,15 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Network/trafficmanagerprofiles",
+                "equals": "Microsoft.Network/applicationgateways",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "equals": "ProbeAgentCurrentEndpointStateByProfileResourceId",
+                "equals": "BackendLastByteResponseTime",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/trafficmanagerprofiles/', field('fullName'))]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/applicationgateways/', field('fullName'))]",
                 "field": "Microsoft.Insights/metricalerts/scopes[*]"
               },
               {
@@ -179,15 +207,23 @@
               },
               {
                 "equals": "Average",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
               },
               {
-                "equals": "LessThan",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator"
+                "equals": "GreaterThan",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator"
               },
               {
-                "equals": "[if(contains(field('tags'), '_amba-EndpointHealth-threshold-Override_'), field('tags._amba-EndpointHealth-threshold-Override_'), parameters('threshold'))]",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold"
+                "equals": "[parameters('alertSensitivity')]",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity"
+              },
+              {
+                "equals": "[parameters('failingPeriods')]",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert"
+              },
+              {
+                "equals": "[parameters('evaluationPeriods')]",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.numberOfEvaluationPeriods"
               }
             ]
           },
@@ -203,11 +239,11 @@
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "enabled": {
                   "value": "[parameters('enabled')]"
@@ -215,11 +251,17 @@
                 "severity": {
                   "value": "[parameters('severity')]"
                 },
-                "threshold": {
-                  "value": "[if(contains(field('tags'), '_amba-EndpointHealth-threshold-Override_'), field('tags._amba-EndpointHealth-threshold-Override_'), parameters('threshold'))]"
+                "failingPeriods": {
+                  "value": "[parameters('failingPeriods')]"
+                },
+                "evaluationPeriods": {
+                  "value": "[parameters('evaluationPeriods')]"
                 },
                 "resourceName": {
                   "value": "[field('name')]"
+                },
+                "alertSensitivity": {
+                  "value": "[parameters('alertSensitivity')]"
                 }
               },
               "template": {
@@ -234,10 +276,10 @@
                   "evaluationFrequency": {
                     "type": "String"
                   },
-                  "windowSize": {
+                  "autoMitigate": {
                     "type": "String"
                   },
-                  "autoMitigate": {
+                  "windowSize": {
                     "type": "String"
                   },
                   "enabled": {
@@ -246,7 +288,10 @@
                   "severity": {
                     "type": "String"
                   },
-                  "threshold": {
+                  "failingPeriods": {
+                    "type": "String"
+                  },
+                  "evaluationPeriods": {
                     "type": "String"
                   },
                   "resourceName": {
@@ -255,24 +300,28 @@
                       "displayName": "resourceName"
                     },
                     "type": "String"
+                  },
+                  "alertSensitivity": {
+                    "type": "String"
                   }
                 },
                 "contentVersion": "1.0.0.0",
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
-                      "description": "Metric Alert for Traffic Manager Endpoint Health",
+                      "description": "Metric Alert for App Gateway BackendLastByteResponseTime",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
-                        "windowSize": {
-                          "value": "[parameters('windowSize')]"
-                        },
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
+                        },
+                        "windowSize": {
+                          "value": "[parameters('windowSize')]"
                         },
                         "enabled": {
                           "value": "[parameters('enabled')]"
@@ -280,36 +329,37 @@
                         "severity": {
                           "value": "[parameters('severity')]"
                         },
-                        "threshold": {
-                          "value": "[parameters('threshold')]"
+                        "failingPeriods": {
+                          "value": "[parameters('failingPeriods')]"
+                        },
+                        "evaluationPeriods": {
+                          "value": "[parameters('evaluationPeriods')]"
+                        },
+                        "alertSensitivity": {
+                          "value": "[parameters('alertSensitivity')]"
                         }
                       },
-                      "windowSize": "[parameters('windowSize')]",
                       "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [
                           {
-                            "threshold": "[parameters('threshold')]",
+                            "failingPeriods": {
+                              "numberOfEvaluationPeriods": "[parameters('evaluationPeriods')]",
+                              "minFailingPeriodsToAlert": "[parameters('failingPeriods')]"
+                            },
                             "timeAggregation": "Average",
-                            "operator": "LessThan",
-                            "name": "EndpointHealth",
-                            "metricNamespace": "Microsoft.Network/trafficmanagerprofiles",
-                            "criterionType": "StaticThresholdCriterion",
-                            "metricName": "ProbeAgentCurrentEndpointStateByProfileResourceId",
-                            "dimensions": [
-                              {
-                                "operator": "Include",
-                                "name": "EndpointName",
-                                "values": [
-                                  "*"
-                                ]
-                              }
-                            ]
+                            "operator": "GreaterThan",
+                            "name": "BackendLastByteResponseTime",
+                            "metricNamespace": "Microsoft.Network/applicationgateways",
+                            "criterionType": "DynamicThresholdCriterion",
+                            "metricName": "BackendLastByteResponseTime",
+                            "alertSensitivity": "[parameters('alertSensitivity')]"
                           }
                         ],
-                        "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                        "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
                       },
                       "scopes": [
                         "[parameters('resourceId')]"
@@ -317,13 +367,12 @@
                     },
                     "apiVersion": "2018-03-01",
                     "location": "global",
-                    "name": "[concat(parameters('resourceName'), '-EndpointHealthAlert')]",
+                    "name": "[concat(parameters('resourceName'), '-agBackendLastByteResponseTime')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
-                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               },
               "mode": "incremental"

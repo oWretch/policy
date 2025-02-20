@@ -20,38 +20,38 @@
     "_deployed_by_amba": true
   },
   "parameters": {
-    "BYOAlertProcessingRule": "",
-    "ALZLogicappResourceId": "",
+    "SvcHlthIncidentAlertState": "true",
+    "ALZEventHubResourceId": [],
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
       "Dev",
       "Sandbox"
     ],
-    "ALZFunctionResourceId": "",
-    "ALZMonitorResourceGroupLocation": "eastus",
-    "ALZWebhookServiceUri": [],
-    "serviceHealthIncidentPolicyEffect": "deployIfNotExists",
-    "ALZArmRoleId": [],
-    "svcHlthSecAdvisoryAlertState": "true",
+    "ResHlthUnhealthyAlertState": "true",
+    "BYOActionGroup": [],
     "ALZMonitorResourceGroupTags": {
       "Project": "amba-monitoring"
     },
-    "SvcHlthIncidentAlertState": "true",
-    "serviceHealthAdvisoryPolicyEffect": "deployIfNotExists",
-    "ALZFunctionTriggerUrl": "",
-    "SvcHlthAdvisoryAlertState": "true",
-    "serviceHealthMaintenancePolicyEffect": "deployIfNotExists",
-    "ALZMonitorDisableTagName": "MonitorDisable",
-    "ALZMonitorActionGroupEmail": [],
     "ALZMonitorResourceGroupName": "rg-amba-monitoring-001",
-    "ResHlthUnhealthyAlertState": "true",
+    "ALZArmRoleId": [],
+    "ALZWebhookServiceUri": [],
+    "serviceHealthMaintenancePolicyEffect": "deployIfNotExists",
+    "ALZLogicappResourceId": "",
+    "BYOAlertProcessingRule": "",
     "ALZLogicappCallbackUrl": "",
-    "ResHlthUnhealthyPolicyEffect": "deployIfNotExists",
-    "ALZEventHubResourceId": [],
-    "SvcHlthMaintenanceAlertState": "true",
+    "SvcHlthAdvisoryAlertState": "true",
+    "ALZMonitorDisableTagName": "MonitorDisable",
+    "svcHlthSecAdvisoryAlertState": "true",
+    "serviceHealthAdvisoryPolicyEffect": "deployIfNotExists",
     "serviceHealthSecurityPolicyEffect": "deployIfNotExists",
-    "BYOActionGroup": []
+    "ALZFunctionResourceId": "",
+    "serviceHealthIncidentPolicyEffect": "deployIfNotExists",
+    "ResHlthUnhealthyPolicyEffect": "deployIfNotExists",
+    "SvcHlthMaintenanceAlertState": "true",
+    "ALZMonitorResourceGroupLocation": "eastus",
+    "ALZFunctionTriggerUrl": "",
+    "ALZMonitorActionGroupEmail": []
   },
   "scope": {
     "amba": [

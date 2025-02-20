@@ -1,15 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-definition-schema.json",
-  "name": "Deploy_AG_ResponseStatus_Alert",
+  "name": "Deploy_AG_ApplicationGatewayTotalTime_Alert",
   "properties": {
-    "displayName": "Deploy AGW ResponseStatus Alert",
-    "description": "Policy to audit/deploy Azure Application Gateway ResponseStatus Alert",
+    "displayName": "Deploy AGW ApplicationGatewayTotalTime Alert",
+    "description": "Policy to audit/deploy Azure Application Gateway ApplicationGatewayTotalTime Alert",
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
-      "version": "1.3.0",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "Category": "Networking"
+      "version": "1.4.1",
+      "category": "Networking",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -48,6 +48,18 @@
         },
         "type": "String"
       },
+      "autoMitigate": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Auto Mitigate"
+        },
+        "type": "String"
+      },
       "windowSize": {
         "allowedValues": [
           "PT1M",
@@ -63,18 +75,6 @@
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        },
-        "type": "String"
-      },
-      "autoMitigate": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Auto Mitigate"
         },
         "type": "String"
       },
@@ -155,6 +155,13 @@
             "field": "type"
           },
           {
+            "field": "Microsoft.Network/applicationgateways/sku.name",
+            "In": [
+              "Standard_v2",
+              "WAF_v2"
+            ]
+          },
+          {
             "field": "[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
             "notIn": "[parameters('MonitorDisableTagValues')]"
           }
@@ -171,7 +178,7 @@
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "equals": "ResponseStatus",
+                "equals": "ApplicationGatewayTotalTime",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
@@ -199,7 +206,7 @@
                 "field": "Microsoft.Insights/metricAlerts/autoMitigate"
               },
               {
-                "equals": "Total",
+                "equals": "Average",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
               },
               {
@@ -232,11 +239,11 @@
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "enabled": {
                   "value": "[parameters('enabled')]"
@@ -269,10 +276,10 @@
                   "evaluationFrequency": {
                     "type": "String"
                   },
-                  "windowSize": {
+                  "autoMitigate": {
                     "type": "String"
                   },
-                  "autoMitigate": {
+                  "windowSize": {
                     "type": "String"
                   },
                   "enabled": {
@@ -299,21 +306,22 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
-                      "description": "Metric Alert for App Gateway ResponseStatus",
+                      "description": "Metric Alert for App Gateway ApplicationGatewayTotalTime",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
-                        "windowSize": {
-                          "value": "[parameters('windowSize')]"
-                        },
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
+                        },
+                        "windowSize": {
+                          "value": "[parameters('windowSize')]"
                         },
                         "enabled": {
                           "value": "[parameters('enabled')]"
@@ -331,8 +339,8 @@
                           "value": "[parameters('alertSensitivity')]"
                         }
                       },
-                      "windowSize": "[parameters('windowSize')]",
                       "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
@@ -342,23 +350,13 @@
                               "numberOfEvaluationPeriods": "[parameters('evaluationPeriods')]",
                               "minFailingPeriodsToAlert": "[parameters('failingPeriods')]"
                             },
-                            "timeAggregation": "Total",
+                            "timeAggregation": "Average",
                             "operator": "GreaterThan",
-                            "name": "ResponseStatus",
+                            "name": "ApplicationGatewayTotalTime",
                             "metricNamespace": "Microsoft.Network/applicationgateways",
                             "criterionType": "DynamicThresholdCriterion",
-                            "metricName": "ResponseStatus",
-                            "alertSensitivity": "[parameters('alertSensitivity')]",
-                            "dimensions": [
-                              {
-                                "operator": "Include",
-                                "name": "HttpStatusGroup",
-                                "values": [
-                                  "4xx",
-                                  "5xx"
-                                ]
-                              }
-                            ]
+                            "metricName": "ApplicationGatewayTotalTime",
+                            "alertSensitivity": "[parameters('alertSensitivity')]"
                           }
                         ],
                         "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
@@ -369,13 +367,12 @@
                     },
                     "apiVersion": "2018-03-01",
                     "location": "global",
-                    "name": "[concat(parameters('resourceName'), '-agResponseStatus')]",
+                    "name": "[concat(parameters('resourceName'), '-agApplicationGatewayTotalTime')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
-                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               },
               "mode": "incremental"

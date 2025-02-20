@@ -20,28 +20,36 @@
     "_deployed_by_amba": true
   },
   "parameters": {
-    "BYOAlertProcessingRule": "",
-    "ALZLogicappResourceId": "",
+    "ALZEventHubResourceId": [],
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
       "Dev",
       "Sandbox"
     ],
-    "ALZFunctionResourceId": "",
-    "ALZMonitorResourceGroupLocation": "eastus",
-    "ALZWebhookServiceUri": [],
-    "ALZArmRoleId": [],
+    "BYOActionGroup": [],
     "ALZMonitorResourceGroupTags": {
       "Project": "amba-monitoring"
     },
-    "ALZFunctionTriggerUrl": "",
-    "ALZMonitorDisableTagName": "MonitorDisable",
-    "ALZMonitorActionGroupEmail": [],
+    "ALZNotificationAssetSuffix": "-001",
     "ALZMonitorResourceGroupName": "rg-amba-monitoring-001",
+    "ALZArmRoleId": [],
+    "ALZWebhookServiceUri": [],
+    "ALZLogicappResourceId": "",
+    "BYOAlertProcessingRule": "",
     "ALZLogicappCallbackUrl": "",
-    "ALZEventHubResourceId": [],
-    "BYOActionGroup": []
+    "ALZMonitorDisableTagName": "MonitorDisable",
+    "ALZFunctionResourceId": "",
+    "ALZAlertSeverity": [
+      "Sev0",
+      "Sev1",
+      "Sev2",
+      "Sev3",
+      "Sev4"
+    ],
+    "ALZMonitorResourceGroupLocation": "eastus",
+    "ALZFunctionTriggerUrl": "",
+    "ALZMonitorActionGroupEmail": []
   },
   "scope": {
     "amba": [

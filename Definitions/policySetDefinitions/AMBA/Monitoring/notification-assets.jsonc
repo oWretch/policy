@@ -9,7 +9,7 @@
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "version": "1.3.0",
+      "version": "1.4.1",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
@@ -23,10 +23,18 @@
         "type": "Array"
       },
       "ALZMonitorResourceGroupName": {
-        "defaultValue": "ALZ-Monitoring-RG",
+        "defaultValue": "rg-amba-monitoring-001",
         "metadata": {
           "description": "Name of the resource group to deploy the alerts to",
           "displayName": "Resource Group Name"
+        },
+        "type": "String"
+      },
+      "ALZMonitorResourceGroupLocation": {
+        "defaultValue": "centralus",
+        "metadata": {
+          "description": "Location of the resource group",
+          "displayName": "Resource Group Location"
         },
         "type": "String"
       },
@@ -38,14 +46,6 @@
         },
         "type": "array"
       },
-      "ALZMonitorResourceGroupLocation": {
-        "defaultValue": "centralus",
-        "metadata": {
-          "description": "Location of the resource group",
-          "displayName": "Resource Group Location"
-        },
-        "type": "String"
-      },
       "ALZMonitorResourceGroupTags": {
         "defaultValue": {
           "_deployed_by_alz_monitor": true
@@ -55,62 +55,6 @@
           "displayName": "Resource Group Tags"
         },
         "type": "Object"
-      },
-      "BYOAlertProcessingRule": {
-        "defaultValue": "",
-        "metadata": {
-          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment",
-          "displayName": "Customer defined Alert Processing Rule Resource ID"
-        },
-        "type": "String"
-      },
-      "ALZLogicappCallbackUrl": {
-        "defaultValue": "",
-        "metadata": {
-          "description": "Callback URL that triggers the Logic App",
-          "displayName": "Logic App Callback URL"
-        },
-        "type": "String"
-      },
-      "ALZLogicappResourceId": {
-        "defaultValue": "",
-        "metadata": {
-          "description": "Logic App Resource Id for Action Group to send alerts to",
-          "displayName": "Logic App Resource Id"
-        },
-        "type": "String"
-      },
-      "ALZFunctionResourceId": {
-        "defaultValue": "",
-        "metadata": {
-          "description": "Function Resource Id for Action Group to send alerts to",
-          "displayName": "Function Resource Id"
-        },
-        "type": "String"
-      },
-      "ALZFunctionTriggerUrl": {
-        "defaultValue": "",
-        "metadata": {
-          "description": "URL that triggers the Function",
-          "displayName": "Function Trigger URL"
-        },
-        "type": "String"
-      },
-      "ALZEventHubResourceId": {
-        "defaultValue": [],
-        "metadata": {
-          "description": "Event Hub resource Ids for action group to send alerts to",
-          "displayName": "Event Hub resource Ids"
-        },
-        "type": "array"
-      },
-      "ALZWebhookServiceUri": {
-        "defaultValue": [],
-        "metadata": {
-          "description": "Indicates the service uri(s) of the webhook to send alerts to",
-          "displayName": "Webhook Service Uri(s)"
-        },
-        "type": "Array"
       },
       "ALZMonitorDisableTagValues": {
         "defaultValue": [
@@ -133,6 +77,62 @@
         },
         "type": "String"
       },
+      "ALZLogicappCallbackUrl": {
+        "defaultValue": "",
+        "metadata": {
+          "description": "Callback URL that triggers the Logic App",
+          "displayName": "Logic App Callback URL"
+        },
+        "type": "String"
+      },
+      "BYOAlertProcessingRule": {
+        "defaultValue": "",
+        "metadata": {
+          "description": "The Resource ID of an existing Alert Processing Rule already deployed by the customer in his environment",
+          "displayName": "Customer defined Alert Processing Rule Resource ID"
+        },
+        "type": "String"
+      },
+      "ALZFunctionResourceId": {
+        "defaultValue": "",
+        "metadata": {
+          "description": "Function Resource Id for Action Group to send alerts to",
+          "displayName": "Function Resource Id"
+        },
+        "type": "String"
+      },
+      "ALZEventHubResourceId": {
+        "defaultValue": [],
+        "metadata": {
+          "description": "Event Hub resource Ids for action group to send alerts to",
+          "displayName": "Event Hub resource Ids"
+        },
+        "type": "array"
+      },
+      "ALZLogicappResourceId": {
+        "defaultValue": "",
+        "metadata": {
+          "description": "Logic App Resource Id for Action Group to send alerts to",
+          "displayName": "Logic App Resource Id"
+        },
+        "type": "String"
+      },
+      "ALZFunctionTriggerUrl": {
+        "defaultValue": "",
+        "metadata": {
+          "description": "URL that triggers the Function",
+          "displayName": "Function Trigger URL"
+        },
+        "type": "String"
+      },
+      "ALZWebhookServiceUri": {
+        "defaultValue": [],
+        "metadata": {
+          "description": "Indicates the service uri(s) of the webhook to send alerts to",
+          "displayName": "Webhook Service Uri(s)"
+        },
+        "type": "Array"
+      },
       "ALZArmRoleId": {
         "defaultValue": [],
         "metadata": {
@@ -140,6 +140,28 @@
           "displayName": "Arm Role Ids"
         },
         "type": "array"
+      },
+      "ALZNotificationAssetSuffix": {
+        "defaultValue": "-001",
+        "metadata": {
+          "description": "Suffix for Alert Processing Rule and Action Group names",
+          "displayName": "Notification Asset Name Suffix"
+        },
+        "type": "String"
+      },
+      "ALZAlertSeverity": {
+        "defaultValue": [
+          "Sev0",
+          "Sev1",
+          "Sev2",
+          "Sev3",
+          "Sev4"
+        ],
+        "metadata": {
+          "description": "Severity of the alerts to apply action groups. Will apply to all severities if not specified.",
+          "displayName": "Alert Severities for Alert Processing Rule"
+        },
+        "type": "Array"
       }
     },
     "policyDefinitions": [
@@ -159,38 +181,44 @@
           "ALZMonitorResourceGroupName": {
             "value": "[parameters('ALZMonitorResourceGroupName')]"
           },
-          "BYOActionGroup": {
-            "value": "[parameters('BYOActionGroup')]"
-          },
           "ALZMonitorResourceGroupLocation": {
             "value": "[parameters('ALZMonitorResourceGroupLocation')]"
+          },
+          "BYOActionGroup": {
+            "value": "[parameters('BYOActionGroup')]"
           },
           "ALZMonitorResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
-          "BYOAlertProcessingRule": {
-            "value": "[parameters('BYOAlertProcessingRule')]"
-          },
           "ALZLogicappCallbackUrl": {
             "value": "[parameters('ALZLogicappCallbackUrl')]"
           },
-          "ALZLogicappResourceId": {
-            "value": "[parameters('ALZLogicappResourceId')]"
+          "BYOAlertProcessingRule": {
+            "value": "[parameters('BYOAlertProcessingRule')]"
           },
           "ALZFunctionResourceId": {
             "value": "[parameters('ALZFunctionResourceId')]"
           },
-          "ALZFunctionTriggerUrl": {
-            "value": "[parameters('ALZFunctionTriggerUrl')]"
-          },
           "ALZEventHubResourceId": {
             "value": "[parameters('ALZEventHubResourceId')]"
+          },
+          "ALZLogicappResourceId": {
+            "value": "[parameters('ALZLogicappResourceId')]"
+          },
+          "ALZFunctionTriggerUrl": {
+            "value": "[parameters('ALZFunctionTriggerUrl')]"
           },
           "ALZWebhookServiceUri": {
             "value": "[parameters('ALZWebhookServiceUri')]"
           },
           "ALZArmRoleId": {
             "value": "[parameters('ALZArmRoleId')]"
+          },
+          "ALZNotificationAssetSuffix": {
+            "value": "[parameters('ALZNotificationAssetSuffix')]"
+          },
+          "ALZAlertSeverity": {
+            "value": "[parameters('ALZAlertSeverity')]"
           }
         }
       },

@@ -1,15 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-definition-schema.json",
-  "name": "Deploy_WSF_MemoryPercentage_Alert",
+  "name": "Deploy_AG_ResponseStatus_Alert",
   "properties": {
-    "displayName": "Deploy App Service Plan Memory Percentage Alert",
-    "description": "Policy to audit/deploy App Service Plan Memory Percentage  Alert",
+    "displayName": "Deploy AGW ResponseStatus Alert",
+    "description": "Policy to audit/deploy Azure Application Gateway ResponseStatus Alert",
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
-      "version": "1.2.0",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "Category": "Web Services"
+      "version": "1.3.1",
+      "category": "Networking",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -20,10 +20,31 @@
           "PT30M",
           "PT1H"
         ],
-        "defaultValue": "PT5M",
+        "defaultValue": "PT1M",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
+        },
+        "type": "String"
+      },
+      "MonitorDisableTagValues": {
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ],
+        "metadata": {
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
+          "displayName": "ALZ Monitoring disabled tag values(s)"
+        },
+        "type": "Array"
+      },
+      "MonitorDisableTagName": {
+        "defaultValue": "MonitorDisable",
+        "metadata": {
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
+          "displayName": "ALZ Monitoring disabled tag name"
         },
         "type": "String"
       },
@@ -57,6 +78,18 @@
         },
         "type": "String"
       },
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
+        "type": "String"
+      },
       "severity": {
         "allowedValues": [
           "0",
@@ -72,44 +105,19 @@
         },
         "type": "String"
       },
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
+      "failingPeriods": {
+        "defaultValue": "2",
         "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
+          "description": "Number of failing periods before alert is fired",
+          "displayName": "Failing Periods"
         },
         "type": "String"
       },
-      "threshold": {
-        "defaultValue": "85",
+      "evaluationPeriods": {
+        "defaultValue": "2",
         "metadata": {
-          "description": "Threshold for the alert",
-          "displayName": "Threshold"
-        },
-        "type": "String"
-      },
-      "MonitorDisableTagValues": {
-        "defaultValue": [
-          "true",
-          "Test",
-          "Dev",
-          "Sandbox"
-        ],
-        "metadata": {
-          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
-          "displayName": "ALZ Monitoring disabled tag values(s)"
-        },
-        "type": "Array"
-      },
-      "MonitorDisableTagName": {
-        "defaultValue": "MonitorDisable",
-        "metadata": {
-          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
-          "displayName": "ALZ Monitoring disabled tag name"
+          "description": "The number of aggregated lookback points.",
+          "displayName": "Evaluation Periods"
         },
         "type": "String"
       },
@@ -124,13 +132,26 @@
           "displayName": "Effect"
         },
         "type": "String"
+      },
+      "alertSensitivity": {
+        "allowedValues": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "defaultValue": "Medium",
+        "metadata": {
+          "description": "Alert Sensitivity for the alert",
+          "displayName": "Alert Sensitivity"
+        },
+        "type": "String"
       }
     },
     "policyRule": {
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Web/serverfarms",
+            "equals": "Microsoft.Network/applicationgateways",
             "field": "type"
           },
           {
@@ -146,15 +167,15 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Web/serverfarms",
+                "equals": "Microsoft.Network/applicationgateways",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "equals": "MemoryPercentage",
+                "equals": "ResponseStatus",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', field('fullName'))]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/applicationgateways/', field('fullName'))]",
                 "field": "Microsoft.Insights/metricalerts/scopes[*]"
               },
               {
@@ -178,16 +199,24 @@
                 "field": "Microsoft.Insights/metricAlerts/autoMitigate"
               },
               {
-                "equals": "Average",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
+                "equals": "Total",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
               },
               {
                 "equals": "GreaterThan",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator"
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.operator"
               },
               {
-                "equals": "[if(contains(field('tags'), '_amba-MemoryPercentage-threshold-Override_'), field('tags._amba-MemoryPercentage-threshold-Override_'), parameters('threshold'))]",
-                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold"
+                "equals": "[parameters('alertSensitivity')]",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.alertSensitivity"
+              },
+              {
+                "equals": "[parameters('failingPeriods')]",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.minFailingPeriodsToAlert"
+              },
+              {
+                "equals": "[parameters('evaluationPeriods')]",
+                "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-MultipleResourceMultipleMetricCriteria.allOf[*].DynamicThresholdCriterion.failingPeriods.numberOfEvaluationPeriods"
               }
             ]
           },
@@ -209,20 +238,25 @@
                 "windowSize": {
                   "value": "[parameters('windowSize')]"
                 },
-                "severity": {
-                  "value": "[parameters('severity')]"
-                },
                 "enabled": {
                   "value": "[parameters('enabled')]"
                 },
-                "threshold": {
-                  "value": "[if(contains(field('tags'), '_amba-MemoryPercentage-threshold-Override_'), field('tags._amba-MemoryPercentage-threshold-Override_'), parameters('threshold'))]"
+                "severity": {
+                  "value": "[parameters('severity')]"
+                },
+                "failingPeriods": {
+                  "value": "[parameters('failingPeriods')]"
+                },
+                "evaluationPeriods": {
+                  "value": "[parameters('evaluationPeriods')]"
                 },
                 "resourceName": {
                   "value": "[field('name')]"
+                },
+                "alertSensitivity": {
+                  "value": "[parameters('alertSensitivity')]"
                 }
               },
-              "mode": "incremental",
               "template": {
                 "parameters": {
                   "resourceId": {
@@ -241,13 +275,16 @@
                   "windowSize": {
                     "type": "String"
                   },
-                  "severity": {
-                    "type": "String"
-                  },
                   "enabled": {
                     "type": "String"
                   },
-                  "threshold": {
+                  "severity": {
+                    "type": "String"
+                  },
+                  "failingPeriods": {
+                    "type": "String"
+                  },
+                  "evaluationPeriods": {
                     "type": "String"
                   },
                   "resourceName": {
@@ -255,6 +292,9 @@
                       "description": "Name of the resource",
                       "displayName": "resourceName"
                     },
+                    "type": "String"
+                  },
+                  "alertSensitivity": {
                     "type": "String"
                   }
                 },
@@ -264,10 +304,8 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
-                      "description": "Metric Alert for App Service Plan Memory Percentage",
+                      "description": "Metric Alert for App Gateway ResponseStatus",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
-                      "autoMitigate": "[parameters('autoMitigate')]",
-                      "windowSize": "[parameters('windowSize')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
@@ -278,46 +316,69 @@
                         "windowSize": {
                           "value": "[parameters('windowSize')]"
                         },
-                        "severity": {
-                          "value": "[parameters('severity')]"
-                        },
                         "enabled": {
                           "value": "[parameters('enabled')]"
                         },
-                        "threshold": {
-                          "value": "[parameters('threshold')]"
+                        "severity": {
+                          "value": "[parameters('severity')]"
+                        },
+                        "failingPeriods": {
+                          "value": "[parameters('failingPeriods')]"
+                        },
+                        "evaluationPeriods": {
+                          "value": "[parameters('evaluationPeriods')]"
+                        },
+                        "alertSensitivity": {
+                          "value": "[parameters('alertSensitivity')]"
                         }
                       },
-                      "severity": "[parameters('severity')]",
+                      "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
+                      "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [
                           {
-                            "threshold": "[parameters('threshold')]",
-                            "timeAggregation": "Average",
-                            "metricNamespace": "Microsoft.Web/serverfarms",
-                            "criterionType": "StaticThresholdCriterion",
-                            "name": "MemoryPercentage",
-                            "metricName": "MemoryPercentage",
-                            "operator": "GreaterThan"
+                            "failingPeriods": {
+                              "numberOfEvaluationPeriods": "[parameters('evaluationPeriods')]",
+                              "minFailingPeriodsToAlert": "[parameters('failingPeriods')]"
+                            },
+                            "timeAggregation": "Total",
+                            "operator": "GreaterThan",
+                            "name": "ResponseStatus",
+                            "metricNamespace": "Microsoft.Network/applicationgateways",
+                            "criterionType": "DynamicThresholdCriterion",
+                            "metricName": "ResponseStatus",
+                            "alertSensitivity": "[parameters('alertSensitivity')]",
+                            "dimensions": [
+                              {
+                                "operator": "Include",
+                                "name": "HttpStatusGroup",
+                                "values": [
+                                  "4xx",
+                                  "5xx"
+                                ]
+                              }
+                            ]
                           }
                         ],
-                        "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
+                        "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
                       },
                       "scopes": [
                         "[parameters('resourceId')]"
                       ]
                     },
                     "apiVersion": "2018-03-01",
-                    "name": "[concat(parameters('resourceName'), '-MemoryPercentage')]",
                     "location": "global",
+                    "name": "[concat(parameters('resourceName'), '-agResponseStatus')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
-              }
+              },
+              "mode": "incremental"
             }
           }
         }

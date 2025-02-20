@@ -20,26 +20,26 @@
     "_deployed_by_amba": true
   },
   "parameters": {
+    "ALZMonitorResourceGroupName": "rg-amba-monitoring-001",
     "ALZMonitorDisableTagValues": [
       "true",
       "Test",
       "Dev",
       "Sandbox"
     ],
-    "StorageAccountAvailabilityThreshold": "90",
-    "StorageAccountAvailabilityFrequency": "PT5M",
     "ALZMonitorResourceGroupTags": {
       "Project": "amba-monitoring"
     },
-    "StorageAccountDeleteAlertState": "true",
-    "StorageAccountAvailabilityAlertSeverity": "1",
     "StorageAccountAvailabilityPolicyEffect": "deployIfNotExists",
-    "StorageAccountAvailabilityWindowSize": "PT5M",
+    "StorageAccountAvailabilityThreshold": "90",
+    "StorageAccountAvailabilityAlertState": "true",
     "ALZMonitorDisableTagName": "MonitorDisable",
-    "ALZMonitorResourceGroupName": "rg-amba-monitoring-001",
-    "StorageAccountDeletePolicyEffect": "deployIfNotExists",
+    "StorageAccountAvailabilityFrequency": "PT5M",
+    "StorageAccountAvailabilityWindowSize": "PT5M",
+    "StorageAccountAvailabilityAlertSeverity": "1",
+    "StorageAccountDeleteAlertState": "true",
     "ALZMonitorResourceGroupLocation": "eastus",
-    "StorageAccountAvailabilityAlertState": "true"
+    "StorageAccountDeletePolicyEffect": "deployIfNotExists"
   },
   "scope": {
     "amba": [

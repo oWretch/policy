@@ -1,15 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-definition-schema.json",
-  "name": "Deploy_FrontDoorCDN_OriginHealthPercentage_Alert",
+  "name": "Deploy_AG_ComputeUnits_Alert",
   "properties": {
-    "displayName": "Deploy FrontDoor CDN Profile Origin Health Percentage Alert",
-    "description": "Policy to audit/deploy FrontDoor Origin Health Percentage Alert",
+    "displayName": "Deploy AGW Compute Units Alert",
+    "description": "Policy to audit/deploy Azure Application Gateway ComputeUnits Alert",
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
       "version": "1.2.1",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "Category": "Networking"
+      "category": "Networking",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -20,7 +20,7 @@
           "PT30M",
           "PT1H"
         ],
-        "defaultValue": "PT5M",
+        "defaultValue": "PT1M",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
@@ -48,6 +48,18 @@
         },
         "type": "String"
       },
+      "autoMitigate": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Auto Mitigate"
+        },
+        "type": "String"
+      },
       "windowSize": {
         "allowedValues": [
           "PT1M",
@@ -63,18 +75,6 @@
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        },
-        "type": "String"
-      },
-      "autoMitigate": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Auto Mitigate"
         },
         "type": "String"
       },
@@ -106,7 +106,7 @@
         "type": "String"
       },
       "threshold": {
-        "defaultValue": "90",
+        "defaultValue": "75",
         "metadata": {
           "description": "Threshold for the alert",
           "displayName": "Threshold"
@@ -130,8 +130,15 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Cdn/profiles",
+            "equals": "Microsoft.Network/applicationgateways",
             "field": "type"
+          },
+          {
+            "field": "Microsoft.Network/applicationgateways/sku.name",
+            "In": [
+              "Standard_v2",
+              "WAF_v2"
+            ]
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -146,15 +153,15 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Cdn/profiles",
+                "equals": "Microsoft.Network/applicationgateways",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "equals": "OriginHealthPercentage",
+                "equals": "ComputeUnits",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Cdn/profiles/', field('fullName'))]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/applicationgateways/', field('fullName'))]",
                 "field": "Microsoft.Insights/metricalerts/scopes[*]"
               },
               {
@@ -182,11 +189,11 @@
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
               },
               {
-                "equals": "LessThan",
+                "equals": "GreaterThan",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator"
               },
               {
-                "equals": "[if(contains(field('tags'), '_amba-OriginHealthPercentage-threshold-Override_'), field('tags._amba-OriginHealthPercentage-threshold-Override_'), parameters('threshold'))]",
+                "equals": "[if(contains(field('tags'), '_amba-ComputeUnits-threshold-Override_'), field('tags._amba-ComputeUnits-threshold-Override_'), parameters('threshold'))]",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold"
               }
             ]
@@ -203,11 +210,11 @@
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "enabled": {
                   "value": "[parameters('enabled')]"
@@ -216,7 +223,7 @@
                   "value": "[parameters('severity')]"
                 },
                 "threshold": {
-                  "value": "[if(contains(field('tags'), '_amba-OriginHealthPercentage-threshold-Override_'), field('tags._amba-OriginHealthPercentage-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[if(contains(field('tags'), '_amba-ComputeUnits-threshold-Override_'), field('tags._amba-ComputeUnits-threshold-Override_'), parameters('threshold'))]"
                 },
                 "resourceName": {
                   "value": "[field('name')]"
@@ -234,10 +241,10 @@
                   "evaluationFrequency": {
                     "type": "String"
                   },
-                  "windowSize": {
+                  "autoMitigate": {
                     "type": "String"
                   },
-                  "autoMitigate": {
+                  "windowSize": {
                     "type": "String"
                   },
                   "enabled": {
@@ -258,21 +265,22 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
-                      "description": "Metric Alert for Frontdoor Origin Health Percentage",
+                      "description": "Metric Alert for App Gateway Compute Units",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
-                        "windowSize": {
-                          "value": "[parameters('windowSize')]"
-                        },
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
+                        },
+                        "windowSize": {
+                          "value": "[parameters('windowSize')]"
                         },
                         "enabled": {
                           "value": "[parameters('enabled')]"
@@ -284,8 +292,8 @@
                           "value": "[parameters('threshold')]"
                         }
                       },
-                      "windowSize": "[parameters('windowSize')]",
                       "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
@@ -293,11 +301,11 @@
                           {
                             "threshold": "[parameters('threshold')]",
                             "timeAggregation": "Average",
-                            "operator": "LessThan",
-                            "name": "OriginHealthPercentage",
-                            "metricNamespace": "Microsoft.Cdn/profiles",
+                            "operator": "GreaterThan",
+                            "name": "ComputeUnits",
+                            "metricNamespace": "Microsoft.Network/applicationgateways",
                             "criterionType": "StaticThresholdCriterion",
-                            "metricName": "OriginHealthPercentage"
+                            "metricName": "ComputeUnits"
                           }
                         ],
                         "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
@@ -308,13 +316,12 @@
                     },
                     "apiVersion": "2018-03-01",
                     "location": "global",
-                    "name": "[concat(parameters('resourceName'), '-OriginHealthPercentage')]",
+                    "name": "[concat(parameters('resourceName'), '-agComputeUnits')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
-                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               },
               "mode": "incremental"

@@ -2,20 +2,20 @@
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-set-definition-schema.json",
   "name": "Alerting-HybridVM",
   "properties": {
-    "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid VMs",
+    "displayName": "Deploy Azure Monitor Baseline Alerts for Hybrid Virtual Machines",
     "description": "This initiative deploys Azure Monitor Baseline Alerts to monitor Azure Arc-enabled Servers.",
     "metadata": {
       "_deployed_by_amba": true,
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "version": "1.1.0",
+      "version": "1.1.2",
       "category": "Monitoring",
       "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "ALZMonitorResourceGroupName": {
-        "defaultValue": "ALZ-Monitoring-RG",
+        "defaultValue": "rg-amba-monitoring-001",
         "metadata": {
           "description": "Name of the resource group where the ALZ Monitor resources will be deployed",
           "displayName": "ALZ Monitor Resource Group Name"
@@ -81,70 +81,6 @@
         "defaultValue": "",
         "metadata": {
           "description": "The subscription ID of the management subscription where the user assigned managed identity will be created."
-        },
-        "type": "string"
-      },
-      "HybridVMHeartBeatRGAlertSeverity": {
-        "allowedValues": [
-          "0",
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "defaultValue": "1",
-        "metadata": {
-          "description": "Severity of the alert for VM Heart Beat RG",
-          "displayName": "Hybrid VM Heart Beat RG Alert Severity"
-        },
-        "type": "String"
-      },
-      "HybridVMHeartBeatRGWindowSize": {
-        "allowedValues": [
-          "PT1M",
-          "PT5M",
-          "PT15M",
-          "PT30M",
-          "PT1H",
-          "PT6H",
-          "PT12H",
-          "P1D"
-        ],
-        "defaultValue": "PT15M",
-        "metadata": {
-          "description": "Window size for the alert",
-          "displayName": "Hybrid VM Heart Beat RG Window Size"
-        },
-        "type": "string"
-      },
-      "HybridVMHeartBeatRGEvaluationFrequency": {
-        "allowedValues": [
-          "PT1M",
-          "PT5M",
-          "PT15M",
-          "PT30M",
-          "PT1H"
-        ],
-        "defaultValue": "PT5M",
-        "metadata": {
-          "description": "Evaluation frequency for the alert",
-          "displayName": "Hybrid VM Heart Beat RG Evaluation Frequency"
-        },
-        "type": "string"
-      },
-      "HybridVMHeartBeatRGAutoMitigate": {
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Hybrid VM Heart Beat RG Auto Mitigate"
-        },
-        "type": "string"
-      },
-      "HybridVMHeartBeatRGAutoResolve": {
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Resolve for the alert",
-          "displayName": "Hybrid VM Heart Beat RG Auto Resolve"
         },
         "type": "string"
       },
@@ -1012,14 +948,6 @@
         },
         "type": "string"
       },
-      "HybridVMPercentCPUAutoMitigate": {
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Hybrid VM Percent CPU Auto Mitigate"
-        },
-        "type": "string"
-      },
       "HybridVMPercentCPUAutoResolve": {
         "defaultValue": "true",
         "metadata": {
@@ -1802,6 +1730,78 @@
           "displayName": "Hybrid VM Disconnected Failing Periods"
         },
         "type": "string"
+      },
+      "HybridVMPercentCPUAutoMitigate": {
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Hybrid VM Percent CPU Auto Mitigate"
+        },
+        "type": "string"
+      },
+      "HybridVMHeartBeatRGAlertSeverity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "1",
+        "metadata": {
+          "description": "Severity of the alert for VM Heart Beat RG",
+          "displayName": "Hybrid VM Heart Beat RG Alert Severity"
+        },
+        "type": "String"
+      },
+      "HybridVMHeartBeatRGWindowSize": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "defaultValue": "PT15M",
+        "metadata": {
+          "description": "Window size for the alert",
+          "displayName": "Hybrid VM Heart Beat RG Window Size"
+        },
+        "type": "string"
+      },
+      "HybridVMHeartBeatRGEvaluationFrequency": {
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "defaultValue": "PT5M",
+        "metadata": {
+          "description": "Evaluation frequency for the alert",
+          "displayName": "Hybrid VM Heart Beat RG Evaluation Frequency"
+        },
+        "type": "string"
+      },
+      "HybridVMHeartBeatRGAutoMitigate": {
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Hybrid VM Heart Beat RG Auto Mitigate"
+        },
+        "type": "string"
+      },
+      "HybridVMHeartBeatRGAutoResolve": {
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Resolve for the alert",
+          "displayName": "Hybrid VM Heart Beat RG Auto Resolve"
+        },
+        "type": "string"
       }
     },
     "policyDefinitions": [
@@ -1812,29 +1812,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMHeartBeatRGEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMHeartBeatRGAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMHeartBeatRGWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMHeartBeatRGAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMHeartBeatRGAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMHeartBeatRGAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMHeartBeatRGThreshold')]"
@@ -1845,17 +1845,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMHeartBeatRGPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMHeartBeatRGTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMHeartBeatRGOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMHeartBeatRGPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMHeartBeatRGAutoResolveTime')]"
@@ -1875,29 +1875,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMNetworkInEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMNetworkInAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMNetworkInWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMNetworkInAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMNetworkInAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMNetworkInAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMNetworkInThreshold')]"
@@ -1911,17 +1911,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMNetworkInPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMNetworkInTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMNetworkInOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMNetworkInPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMNetworkInAutoResolveTime')]"
@@ -1941,29 +1941,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMNetworkOutEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMNetworkOutAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMNetworkOutWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMNetworkOutAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMNetworkOutAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMNetworkOutAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMNetworkOutThreshold')]"
@@ -1977,17 +1977,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMNetworkOutPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMNetworkOutTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMNetworkOutOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMNetworkOutPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMNetworkOutAutoResolveTime')]"
@@ -2007,29 +2007,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMOSDiskReadLatencyEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMOSDiskReadLatencyAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMOSDiskReadLatencyWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMOSDiskReadLatencyAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMOSDiskReadLatencyAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMOSDiskReadLatencyAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMOSDiskReadLatencyThreshold')]"
@@ -2043,17 +2043,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMOSDiskReadLatencyPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMOSDiskReadLatencyTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMOSDiskReadLatencyOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMOSDiskReadLatencyPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMOSDiskReadLatencyAutoResolveTime')]"
@@ -2073,29 +2073,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMOSDiskWriteLatencyAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMOSDiskWriteLatencyAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyThreshold')]"
@@ -2109,17 +2109,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMOSDiskWriteLatencyPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMOSDiskWriteLatencyPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMOSDiskWriteLatencyAutoResolveTime')]"
@@ -2139,29 +2139,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMOSDiskSpaceEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMOSDiskSpaceAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMOSDiskSpaceWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMOSDiskSpaceAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMOSDiskSpaceAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMOSDiskSpaceAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMOSDiskSpaceThreshold')]"
@@ -2175,17 +2175,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMOSDiskSpacePolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMOSDiskSpaceTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMOSDiskSpaceOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMOSDiskSpacePolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMOSDiskSpaceAutoResolveTime')]"
@@ -2205,29 +2205,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMPercentCPUEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMPercentCPUAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMPercentCPUWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMPercentCPUAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMPercentCPUAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMPercentCPUAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMPercentCPUThreshold')]"
@@ -2238,17 +2238,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMPercentCPUPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMPercentCPUTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMPercentCPUOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMPercentCPUPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMPercentCPUAutoResolveTime')]"
@@ -2265,29 +2265,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMPercentMemoryEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMPercentMemoryAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMPercentMemoryWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMPercentMemoryAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMPercentMemoryAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMPercentMemoryAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMPercentMemoryThreshold')]"
@@ -2298,17 +2298,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMPercentMemoryPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMPercentMemoryTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMPercentMemoryOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMPercentMemoryPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMPercentMemoryAutoResolveTime')]"
@@ -2325,29 +2325,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMDataDiskSpaceEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMDataDiskSpaceAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMDataDiskSpaceWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMDataDiskSpaceAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMDataDiskSpaceAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMDataDiskSpaceAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMDataDiskSpaceThreshold')]"
@@ -2361,17 +2361,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMDataDiskSpacePolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMDataDiskSpaceTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMDataDiskSpaceOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMDataDiskSpacePolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMDataDiskSpaceAutoResolveTime')]"
@@ -2391,29 +2391,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMDataDiskReadLatencyEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMDataDiskReadLatencyAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMDataDiskReadLatencyWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMDataDiskReadLatencyAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMDataDiskReadLatencyAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMDataDiskReadLatencyAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMDataDiskReadLatencyThreshold')]"
@@ -2427,17 +2427,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMDataDiskReadLatencyPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMDataDiskReadLatencyTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMDataDiskReadLatencyOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMDataDiskReadLatencyPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMDataDiskReadLatencyAutoResolveTime')]"
@@ -2457,29 +2457,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMDataDiskWriteLatencyAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMDataDiskWriteLatencyAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyThreshold')]"
@@ -2493,17 +2493,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMDataDiskWriteLatencyPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMDataDiskWriteLatencyPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "autoResolveTime": {
             "value": "[parameters('HybridVMDataDiskWriteLatencyAutoResolveTime')]"
@@ -2523,29 +2523,29 @@
           "evaluationFrequency": {
             "value": "[parameters('HybridVMDisconnectedAlertEvaluationFrequency')]"
           },
-          "autoMitigate": {
-            "value": "[parameters('HybridVMDisconnectedAlertAutoMitigate')]"
-          },
           "MonitorDisableTagValues": {
             "value": "[parameters('ALZMonitorDisableTagValues')]"
           },
-          "alertResourceGroupLocation": {
-            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
-          },
-          "alertResourceGroupName": {
-            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          "MonitorDisableTagName": {
+            "value": "[parameters('ALZMonitorDisableTagName')]"
           },
           "windowSize": {
             "value": "[parameters('HybridVMDisconnectedAlertWindowSize')]"
           },
-          "MonitorDisableTagName": {
-            "value": "[parameters('ALZMonitorDisableTagName')]"
+          "autoMitigate": {
+            "value": "[parameters('HybridVMDisconnectedAlertAutoMitigate')]"
           },
           "enabled": {
             "value": "[parameters('HybridVMDisconnectedAlertState')]"
           },
           "severity": {
             "value": "[parameters('HybridVMDisconnectedAlertSeverity')]"
+          },
+          "alertResourceGroupName": {
+            "value": "[parameters('ALZMonitorResourceGroupName')]"
+          },
+          "alertResourceGroupLocation": {
+            "value": "[parameters('ALZMonitorResourceGroupLocation')]"
           },
           "threshold": {
             "value": "[parameters('HybridVMDisconnectedAlertThreshold')]"
@@ -2559,17 +2559,17 @@
           "alertResourceGroupTags": {
             "value": "[parameters('ALZMonitorResourceGroupTags')]"
           },
+          "effect": {
+            "value": "[parameters('HybridVMDisconnectedAlertPolicyEffect')]"
+          },
           "timeAggregation": {
             "value": "[parameters('HybridVMDisconnectedAlertTimeAggregation')]"
-          },
-          "UAMIResourceId": {
-            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           },
           "operator": {
             "value": "[parameters('HybridVMDisconnectedAlertOperator')]"
           },
-          "effect": {
-            "value": "[parameters('HybridVMDisconnectedAlertPolicyEffect')]"
+          "UAMIResourceId": {
+            "value": "[if(empty(parameters('BYOUserAssignedManagedIdentityResourceId')), concat('/subscriptions/', parameters('ALZManagementSubscriptionId'), '/resourceGroups/', parameters('ALZMonitorResourceGroupName'), '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('ALZUserAssignedManagedIdentityName')),parameters('BYOUserAssignedManagedIdentityResourceId'))]"
           }
         }
       }

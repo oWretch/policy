@@ -1,15 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-definition-schema.json",
-  "name": "Deploy_ALB_UsedSNATPorts_Alert",
+  "name": "Deploy_TM_EndpointHealth_Alert",
   "properties": {
-    "displayName": "Deploy ALB Used SNAT Ports Alert",
-    "description": "Policy to audit/deploy Azure Load Balancer Used SNAT Ports Alert",
+    "displayName": "Deploy Traffic Manager Endpoint Health Alert",
+    "description": "Policy to audit/deploy FTraffic Manager Endpoint Health Health Alert",
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
-      "version": "1.2.0",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "Category": "Networking"
+      "version": "1.2.1",
+      "category": "Networking",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -20,7 +20,7 @@
           "PT30M",
           "PT1H"
         ],
-        "defaultValue": "PT1M",
+        "defaultValue": "PT5M",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
@@ -48,6 +48,18 @@
         },
         "type": "String"
       },
+      "autoMitigate": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Auto Mitigate"
+        },
+        "type": "String"
+      },
       "windowSize": {
         "allowedValues": [
           "PT1M",
@@ -63,18 +75,6 @@
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        },
-        "type": "String"
-      },
-      "autoMitigate": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Auto Mitigate"
         },
         "type": "String"
       },
@@ -98,7 +98,7 @@
           "3",
           "4"
         ],
-        "defaultValue": "1",
+        "defaultValue": "2",
         "metadata": {
           "description": "Severity of the Alert",
           "displayName": "Severity"
@@ -106,7 +106,7 @@
         "type": "String"
       },
       "threshold": {
-        "defaultValue": "900",
+        "defaultValue": "0.9",
         "metadata": {
           "description": "Threshold for the alert",
           "displayName": "Threshold"
@@ -130,7 +130,7 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Network/loadBalancers",
+            "equals": "Microsoft.Network/trafficmanagerprofiles",
             "field": "type"
           },
           {
@@ -146,15 +146,15 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Network/loadBalancers",
+                "equals": "Microsoft.Network/trafficmanagerprofiles",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "equals": "UsedSNATPorts",
+                "equals": "ProbeAgentCurrentEndpointStateByProfileResourceId",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', field('fullName'))]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/trafficmanagerprofiles/', field('fullName'))]",
                 "field": "Microsoft.Insights/metricalerts/scopes[*]"
               },
               {
@@ -182,11 +182,11 @@
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
               },
               {
-                "equals": "GreaterThan",
+                "equals": "LessThan",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator"
               },
               {
-                "equals": "[if(contains(field('tags'), '_amba-UsedSNATPorts-threshold-Override_'), field('tags._amba-UsedSNATPorts-threshold-Override_'), parameters('threshold'))]",
+                "equals": "[if(contains(field('tags'), '_amba-EndpointHealth-threshold-Override_'), field('tags._amba-EndpointHealth-threshold-Override_'), parameters('threshold'))]",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold"
               }
             ]
@@ -203,11 +203,11 @@
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "enabled": {
                   "value": "[parameters('enabled')]"
@@ -216,7 +216,7 @@
                   "value": "[parameters('severity')]"
                 },
                 "threshold": {
-                  "value": "[if(contains(field('tags'), '_amba-UsedSNATPorts-threshold-Override_'), field('tags._amba-UsedSNATPorts-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[if(contains(field('tags'), '_amba-EndpointHealth-threshold-Override_'), field('tags._amba-EndpointHealth-threshold-Override_'), parameters('threshold'))]"
                 },
                 "resourceName": {
                   "value": "[field('name')]"
@@ -234,10 +234,10 @@
                   "evaluationFrequency": {
                     "type": "String"
                   },
-                  "windowSize": {
+                  "autoMitigate": {
                     "type": "String"
                   },
-                  "autoMitigate": {
+                  "windowSize": {
                     "type": "String"
                   },
                   "enabled": {
@@ -258,21 +258,22 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
-                      "description": "Metric Alert for ALB Used SNAT Ports",
+                      "description": "Metric Alert for Traffic Manager Endpoint Health",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
-                        "windowSize": {
-                          "value": "[parameters('windowSize')]"
-                        },
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
+                        },
+                        "windowSize": {
+                          "value": "[parameters('windowSize')]"
                         },
                         "enabled": {
                           "value": "[parameters('enabled')]"
@@ -284,8 +285,8 @@
                           "value": "[parameters('threshold')]"
                         }
                       },
-                      "windowSize": "[parameters('windowSize')]",
                       "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
@@ -293,11 +294,20 @@
                           {
                             "threshold": "[parameters('threshold')]",
                             "timeAggregation": "Average",
-                            "operator": "GreaterThan",
-                            "name": "UsedSNATPorts",
-                            "metricNamespace": "Microsoft.Network/loadBalancers",
+                            "operator": "LessThan",
+                            "name": "EndpointHealth",
+                            "metricNamespace": "Microsoft.Network/trafficmanagerprofiles",
                             "criterionType": "StaticThresholdCriterion",
-                            "metricName": "UsedSNATPorts"
+                            "metricName": "ProbeAgentCurrentEndpointStateByProfileResourceId",
+                            "dimensions": [
+                              {
+                                "operator": "Include",
+                                "name": "EndpointName",
+                                "values": [
+                                  "*"
+                                ]
+                              }
+                            ]
                           }
                         ],
                         "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
@@ -308,13 +318,12 @@
                     },
                     "apiVersion": "2018-03-01",
                     "location": "global",
-                    "name": "[concat(parameters('resourceName'), '-ALBUsedSNATPorts')]",
+                    "name": "[concat(parameters('resourceName'), '-EndpointHealthAlert')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
-                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               },
               "mode": "incremental"

@@ -1,15 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-definition-schema.json",
-  "name": "Deploy_WSF_CPUPercentage_Alert",
+  "name": "Deploy_ALB_GlobalBackendAvailability_Alert",
   "properties": {
-    "displayName": "Deploy App Service Plan CPU Percentage Alert",
-    "description": "Policy to audit/deploy App Service Plan CPU Percentage  Alert",
+    "displayName": "Deploy ALB Global Backend Availability Alert",
+    "description": "Policy to audit/deploy Azure Load Balancer Global Backend Availability Alert",
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
-      "version": "1.2.0",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "Category": "Web Services"
+      "version": "1.2.1",
+      "category": "Networking",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -20,10 +20,31 @@
           "PT30M",
           "PT1H"
         ],
-        "defaultValue": "PT5M",
+        "defaultValue": "PT1M",
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
+        },
+        "type": "String"
+      },
+      "MonitorDisableTagValues": {
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ],
+        "metadata": {
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
+          "displayName": "ALZ Monitoring disabled tag values(s)"
+        },
+        "type": "Array"
+      },
+      "MonitorDisableTagName": {
+        "defaultValue": "MonitorDisable",
+        "metadata": {
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
+          "displayName": "ALZ Monitoring disabled tag name"
         },
         "type": "String"
       },
@@ -57,21 +78,6 @@
         },
         "type": "String"
       },
-      "severity": {
-        "allowedValues": [
-          "0",
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "defaultValue": "2",
-        "metadata": {
-          "description": "Severity of the Alert",
-          "displayName": "Severity"
-        },
-        "type": "String"
-      },
       "enabled": {
         "allowedValues": [
           "true",
@@ -84,32 +90,26 @@
         },
         "type": "String"
       },
+      "severity": {
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "defaultValue": "0",
+        "metadata": {
+          "description": "Severity of the Alert",
+          "displayName": "Severity"
+        },
+        "type": "String"
+      },
       "threshold": {
         "defaultValue": "90",
         "metadata": {
           "description": "Threshold for the alert",
           "displayName": "Threshold"
-        },
-        "type": "String"
-      },
-      "MonitorDisableTagValues": {
-        "defaultValue": [
-          "true",
-          "Test",
-          "Dev",
-          "Sandbox"
-        ],
-        "metadata": {
-          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
-          "displayName": "ALZ Monitoring disabled tag values(s)"
-        },
-        "type": "Array"
-      },
-      "MonitorDisableTagName": {
-        "defaultValue": "MonitorDisable",
-        "metadata": {
-          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
-          "displayName": "ALZ Monitoring disabled tag name"
         },
         "type": "String"
       },
@@ -130,8 +130,12 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Web/serverfarms",
+            "equals": "Microsoft.Network/loadBalancers",
             "field": "type"
+          },
+          {
+            "equals": "Global",
+            "field": "Microsoft.Network/loadBalancers/sku.tier"
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -146,15 +150,15 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Web/serverfarms",
+                "equals": "Microsoft.Network/loadBalancers",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "equals": "CpuPercentage",
+                "equals": "GlobalBackendAvailability",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', field('fullName'))]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', field('fullName'))]",
                 "field": "Microsoft.Insights/metricalerts/scopes[*]"
               },
               {
@@ -182,11 +186,11 @@
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
               },
               {
-                "equals": "GreaterThan",
+                "equals": "LessThan",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator"
               },
               {
-                "equals": "[if(contains(field('tags'), '_amba-CpuPercentage-threshold-Override_'), field('tags._amba-CpuPercentage-threshold-Override_'), parameters('threshold'))]",
+                "equals": "[if(contains(field('tags'), '_amba-GlobalBackendAvailability-threshold-Override_'), field('tags._amba-GlobalBackendAvailability-threshold-Override_'), parameters('threshold'))]",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold"
               }
             ]
@@ -209,20 +213,19 @@
                 "windowSize": {
                   "value": "[parameters('windowSize')]"
                 },
-                "severity": {
-                  "value": "[parameters('severity')]"
-                },
                 "enabled": {
                   "value": "[parameters('enabled')]"
                 },
+                "severity": {
+                  "value": "[parameters('severity')]"
+                },
                 "threshold": {
-                  "value": "[if(contains(field('tags'), '_amba-CpuPercentage-threshold-Override_'), field('tags._amba-CpuPercentage-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[if(contains(field('tags'), '_amba-GlobalBackendAvailability-threshold-Override_'), field('tags._amba-GlobalBackendAvailability-threshold-Override_'), parameters('threshold'))]"
                 },
                 "resourceName": {
                   "value": "[field('name')]"
                 }
               },
-              "mode": "incremental",
               "template": {
                 "parameters": {
                   "resourceId": {
@@ -241,10 +244,10 @@
                   "windowSize": {
                     "type": "String"
                   },
-                  "severity": {
+                  "enabled": {
                     "type": "String"
                   },
-                  "enabled": {
+                  "severity": {
                     "type": "String"
                   },
                   "threshold": {
@@ -264,10 +267,8 @@
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
-                      "description": "Metric Alert for App Service Plan CPU Percentage",
+                      "description": "Metric Alert for Global Backend Availability",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
-                      "autoMitigate": "[parameters('autoMitigate')]",
-                      "windowSize": "[parameters('windowSize')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
@@ -278,28 +279,30 @@
                         "windowSize": {
                           "value": "[parameters('windowSize')]"
                         },
-                        "severity": {
-                          "value": "[parameters('severity')]"
-                        },
                         "enabled": {
                           "value": "[parameters('enabled')]"
+                        },
+                        "severity": {
+                          "value": "[parameters('severity')]"
                         },
                         "threshold": {
                           "value": "[parameters('threshold')]"
                         }
                       },
-                      "severity": "[parameters('severity')]",
+                      "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
+                      "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [
                           {
                             "threshold": "[parameters('threshold')]",
                             "timeAggregation": "Average",
-                            "metricNamespace": "Microsoft.Web/serverfarms",
+                            "operator": "LessThan",
+                            "name": "GlobalBackendAvailability",
+                            "metricNamespace": "Microsoft.Network/loadBalancers",
                             "criterionType": "StaticThresholdCriterion",
-                            "name": "CpuPercentage",
-                            "metricName": "CpuPercentage",
-                            "operator": "GreaterThan"
+                            "metricName": "GlobalBackendAvailability"
                           }
                         ],
                         "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
@@ -309,15 +312,16 @@
                       ]
                     },
                     "apiVersion": "2018-03-01",
-                    "name": "[concat(parameters('resourceName'), '-CpuPercentage')]",
                     "location": "global",
+                    "name": "[concat(parameters('resourceName'), '-ALBGlobalBackendAvailability')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
-              }
+              },
+              "mode": "incremental"
             }
           }
         }

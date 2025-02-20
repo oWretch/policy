@@ -1,15 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-definition-schema.json",
-  "name": "Deploy_ALB_GlobalBackendAvailability_Alert",
+  "name": "Deploy_AG_CPUUtilization_Alert",
   "properties": {
-    "displayName": "Deploy ALB Global Backend Availability Alert",
-    "description": "Policy to audit/deploy Azure Load Balancer Global Backend Availability Alert",
+    "displayName": "Deploy AGW CPU Utilization Alert",
+    "description": "Policy to audit/deploy Azure Application Gateway CPU Utilization Alert",
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
-      "version": "1.2.0",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
-      "Category": "Networking"
+      "version": "1.2.1",
+      "category": "Networking",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -48,6 +48,18 @@
         },
         "type": "String"
       },
+      "autoMitigate": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Auto Mitigate for the alert",
+          "displayName": "Auto Mitigate"
+        },
+        "type": "String"
+      },
       "windowSize": {
         "allowedValues": [
           "PT1M",
@@ -63,18 +75,6 @@
         "metadata": {
           "description": "Window size for the alert",
           "displayName": "Window Size"
-        },
-        "type": "String"
-      },
-      "autoMitigate": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Auto Mitigate for the alert",
-          "displayName": "Auto Mitigate"
         },
         "type": "String"
       },
@@ -98,7 +98,7 @@
           "3",
           "4"
         ],
-        "defaultValue": "0",
+        "defaultValue": "2",
         "metadata": {
           "description": "Severity of the Alert",
           "displayName": "Severity"
@@ -106,7 +106,7 @@
         "type": "String"
       },
       "threshold": {
-        "defaultValue": "90",
+        "defaultValue": "80",
         "metadata": {
           "description": "Threshold for the alert",
           "displayName": "Threshold"
@@ -130,12 +130,15 @@
       "if": {
         "allOf": [
           {
-            "equals": "Microsoft.Network/loadBalancers",
+            "equals": "Microsoft.Network/applicationgateways",
             "field": "type"
           },
           {
-            "equals": "Global",
-            "field": "Microsoft.Network/loadBalancers/sku.tier"
+            "field": "Microsoft.Network/applicationgateways/sku.name",
+            "notIn": [
+              "Standard_v2",
+              "WAF_v2"
+            ]
           },
           {
             "field": "[concat('tags[', parameters('MonitorDisableTagName'), ']')]",
@@ -150,15 +153,15 @@
           "existenceCondition": {
             "allOf": [
               {
-                "equals": "Microsoft.Network/loadBalancers",
+                "equals": "Microsoft.Network/applicationgateways",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricNamespace"
               },
               {
-                "equals": "GlobalBackendAvailability",
+                "equals": "CpuUtilization",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].metricName"
               },
               {
-                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', field('fullName'))]",
+                "equals": "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/applicationgateways/', field('fullName'))]",
                 "field": "Microsoft.Insights/metricalerts/scopes[*]"
               },
               {
@@ -186,11 +189,11 @@
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft-Azure-Monitor-SingleResourceMultipleMetricCriteria.allOf[*].timeAggregation"
               },
               {
-                "equals": "LessThan",
+                "equals": "GreaterThan",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.operator"
               },
               {
-                "equals": "[if(contains(field('tags'), '_amba-GlobalBackendAvailability-threshold-Override_'), field('tags._amba-GlobalBackendAvailability-threshold-Override_'), parameters('threshold'))]",
+                "equals": "[if(contains(field('tags'), '_amba-CpuUtilization-threshold-Override_'), field('tags._amba-CpuUtilization-threshold-Override_'), parameters('threshold'))]",
                 "field": "Microsoft.Insights/metricAlerts/criteria.Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria.allOf[*].StaticThresholdCriterion.threshold"
               }
             ]
@@ -207,11 +210,11 @@
                 "evaluationFrequency": {
                   "value": "[parameters('evaluationFrequency')]"
                 },
-                "windowSize": {
-                  "value": "[parameters('windowSize')]"
-                },
                 "autoMitigate": {
                   "value": "[parameters('autoMitigate')]"
+                },
+                "windowSize": {
+                  "value": "[parameters('windowSize')]"
                 },
                 "enabled": {
                   "value": "[parameters('enabled')]"
@@ -220,7 +223,7 @@
                   "value": "[parameters('severity')]"
                 },
                 "threshold": {
-                  "value": "[if(contains(field('tags'), '_amba-GlobalBackendAvailability-threshold-Override_'), field('tags._amba-GlobalBackendAvailability-threshold-Override_'), parameters('threshold'))]"
+                  "value": "[if(contains(field('tags'), '_amba-CpuUtilization-threshold-Override_'), field('tags._amba-CpuUtilization-threshold-Override_'), parameters('threshold'))]"
                 },
                 "resourceName": {
                   "value": "[field('name')]"
@@ -238,10 +241,10 @@
                   "evaluationFrequency": {
                     "type": "String"
                   },
-                  "windowSize": {
+                  "autoMitigate": {
                     "type": "String"
                   },
-                  "autoMitigate": {
+                  "windowSize": {
                     "type": "String"
                   },
                   "enabled": {
@@ -262,21 +265,22 @@
                   }
                 },
                 "contentVersion": "1.0.0.0",
+                "variables": {},
                 "resources": [
                   {
                     "type": "Microsoft.Insights/metricAlerts",
                     "properties": {
-                      "description": "Metric Alert for Global Backend Availability",
+                      "description": "Metric Alert for App Gateway CPU Utilization",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
                         },
-                        "windowSize": {
-                          "value": "[parameters('windowSize')]"
-                        },
                         "autoMitigate": {
                           "value": "[parameters('autoMitigate')]"
+                        },
+                        "windowSize": {
+                          "value": "[parameters('windowSize')]"
                         },
                         "enabled": {
                           "value": "[parameters('enabled')]"
@@ -288,8 +292,8 @@
                           "value": "[parameters('threshold')]"
                         }
                       },
-                      "windowSize": "[parameters('windowSize')]",
                       "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
                       "severity": "[parameters('severity')]",
                       "criteria": {
@@ -297,11 +301,11 @@
                           {
                             "threshold": "[parameters('threshold')]",
                             "timeAggregation": "Average",
-                            "operator": "LessThan",
-                            "name": "GlobalBackendAvailability",
-                            "metricNamespace": "Microsoft.Network/loadBalancers",
+                            "operator": "GreaterThan",
+                            "name": "CpuUtilization",
+                            "metricNamespace": "Microsoft.Network/applicationgateways",
                             "criterionType": "StaticThresholdCriterion",
-                            "metricName": "GlobalBackendAvailability"
+                            "metricName": "CpuUtilization"
                           }
                         ],
                         "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria"
@@ -312,13 +316,12 @@
                     },
                     "apiVersion": "2018-03-01",
                     "location": "global",
-                    "name": "[concat(parameters('resourceName'), '-ALBGlobalBackendAvailability')]",
+                    "name": "[concat(parameters('resourceName'), '-agCpuUtilization')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
-                "variables": {},
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
               },
               "mode": "incremental"

@@ -7,12 +7,12 @@
     "mode": "All",
     "metadata": {
       "_deployed_by_amba": "True",
-      "version": "1.3.0",
-      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
       "alzCloudEnvironments": [
         "AzureCloud"
       ],
-      "category": "Web Services"
+      "version": "1.3.0",
+      "category": "Web Services",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/"
     },
     "parameters": {
       "evaluationFrequency": {
@@ -27,6 +27,27 @@
         "metadata": {
           "description": "Evaluation frequency for the alert",
           "displayName": "Evaluation Frequency"
+        },
+        "type": "String"
+      },
+      "MonitorDisableTagValues": {
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ],
+        "metadata": {
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
+          "displayName": "ALZ Monitoring disabled tag values(s)"
+        },
+        "type": "Array"
+      },
+      "MonitorDisableTagName": {
+        "defaultValue": "MonitorDisable",
+        "metadata": {
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
+          "displayName": "ALZ Monitoring disabled tag name"
         },
         "type": "String"
       },
@@ -60,6 +81,18 @@
         },
         "type": "String"
       },
+      "enabled": {
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true",
+        "metadata": {
+          "description": "Alert state for the alert",
+          "displayName": "Alert State"
+        },
+        "type": "String"
+      },
       "severity": {
         "allowedValues": [
           "0",
@@ -72,18 +105,6 @@
         "metadata": {
           "description": "Severity of the Alert",
           "displayName": "Severity"
-        },
-        "type": "String"
-      },
-      "enabled": {
-        "allowedValues": [
-          "true",
-          "false"
-        ],
-        "defaultValue": "true",
-        "metadata": {
-          "description": "Alert state for the alert",
-          "displayName": "Alert State"
         },
         "type": "String"
       },
@@ -100,27 +121,6 @@
         "metadata": {
           "description": "The number of aggregated lookback points.",
           "displayName": "Evaluation Periods"
-        },
-        "type": "String"
-      },
-      "MonitorDisableTagValues": {
-        "defaultValue": [
-          "true",
-          "Test",
-          "Dev",
-          "Sandbox"
-        ],
-        "metadata": {
-          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
-          "displayName": "ALZ Monitoring disabled tag values(s)"
-        },
-        "type": "Array"
-      },
-      "MonitorDisableTagName": {
-        "defaultValue": "MonitorDisable",
-        "metadata": {
-          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled.",
-          "displayName": "ALZ Monitoring disabled tag name"
         },
         "type": "String"
       },
@@ -228,23 +228,22 @@
                 "windowSize": {
                   "value": "[parameters('windowSize')]"
                 },
-                "severity": {
-                  "value": "[parameters('severity')]"
-                },
                 "enabled": {
                   "value": "[parameters('enabled')]"
                 },
-                "resourceName": {
-                  "value": "[field('name')]"
+                "severity": {
+                  "value": "[parameters('severity')]"
                 },
                 "failingPeriods": {
                   "value": "[parameters('failingPeriods')]"
                 },
                 "evaluationPeriods": {
                   "value": "[parameters('evaluationPeriods')]"
+                },
+                "resourceName": {
+                  "value": "[field('name')]"
                 }
               },
-              "mode": "incremental",
               "template": {
                 "parameters": {
                   "resourceId": {
@@ -263,10 +262,16 @@
                   "windowSize": {
                     "type": "String"
                   },
+                  "enabled": {
+                    "type": "String"
+                  },
                   "severity": {
                     "type": "String"
                   },
-                  "enabled": {
+                  "failingPeriods": {
+                    "type": "String"
+                  },
+                  "evaluationPeriods": {
                     "type": "String"
                   },
                   "resourceName": {
@@ -274,12 +279,6 @@
                       "description": "Name of the resource",
                       "displayName": "resourceName"
                     },
-                    "type": "String"
-                  },
-                  "failingPeriods": {
-                    "type": "String"
-                  },
-                  "evaluationPeriods": {
                     "type": "String"
                   }
                 },
@@ -291,8 +290,6 @@
                     "properties": {
                       "description": "Metric Alert for App Service Plan Http Queue Length",
                       "evaluationFrequency": "[parameters('evaluationFrequency')]",
-                      "autoMitigate": "[parameters('autoMitigate')]",
-                      "windowSize": "[parameters('windowSize')]",
                       "parameters": {
                         "evaluationFrequency": {
                           "value": "[parameters('evaluationFrequency')]"
@@ -303,11 +300,11 @@
                         "windowSize": {
                           "value": "[parameters('windowSize')]"
                         },
-                        "severity": {
-                          "value": "[parameters('severity')]"
-                        },
                         "enabled": {
                           "value": "[parameters('enabled')]"
+                        },
+                        "severity": {
+                          "value": "[parameters('severity')]"
                         },
                         "failingPeriods": {
                           "value": "[parameters('failingPeriods')]"
@@ -316,21 +313,23 @@
                           "value": "[parameters('evaluationPeriods')]"
                         }
                       },
-                      "severity": "[parameters('severity')]",
+                      "autoMitigate": "[parameters('autoMitigate')]",
+                      "windowSize": "[parameters('windowSize')]",
                       "enabled": "[parameters('enabled')]",
+                      "severity": "[parameters('severity')]",
                       "criteria": {
                         "allOf": [
                           {
                             "failingPeriods": {
-                              "minFailingPeriodsToAlert": "[parameters('failingPeriods')]",
-                              "numberOfEvaluationPeriods": "[parameters('evaluationPeriods')]"
+                              "numberOfEvaluationPeriods": "[parameters('evaluationPeriods')]",
+                              "minFailingPeriodsToAlert": "[parameters('failingPeriods')]"
                             },
                             "timeAggregation": "Average",
+                            "operator": "GreaterThan",
+                            "name": "ServiceApiResult",
                             "metricNamespace": "Microsoft.Web/serverfarms",
                             "criterionType": "DynamicThresholdCriterion",
-                            "name": "ServiceApiResult",
                             "metricName": "HttpQueueLength",
-                            "operator": "GreaterThan",
                             "alertSensitivity": "Medium"
                           }
                         ],
@@ -341,15 +340,16 @@
                       ]
                     },
                     "apiVersion": "2018-03-01",
-                    "name": "[concat(parameters('resourceName'), '-HttpQueueLengthAlert')]",
                     "location": "global",
+                    "name": "[concat(parameters('resourceName'), '-HttpQueueLengthAlert')]",
                     "tags": {
                       "_deployed_by_amba": true
                     }
                   }
                 ],
                 "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#"
-              }
+              },
+              "mode": "incremental"
             }
           }
         }
