@@ -1,5 +1,4 @@
 {
-  "name": "Deploy-Private-DNS-Zones",
   "properties": {
     "policyType": "Custom",
     "displayName": "Configure Azure PaaS services to use private DNS zones",
@@ -1729,5 +1728,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Deploy-Private-DNS-Zones"
 }

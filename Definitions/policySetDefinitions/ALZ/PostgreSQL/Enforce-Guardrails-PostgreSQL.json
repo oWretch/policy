@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-PostgreSQL",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for PostgreSQL",
@@ -38,5 +37,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-PostgreSQL"
 }

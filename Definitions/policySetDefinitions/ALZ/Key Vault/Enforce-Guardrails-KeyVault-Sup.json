@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-KeyVault-Sup",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce additional recommended guardrails for Key Vault",
@@ -57,5 +56,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-KeyVault-Sup"
 }

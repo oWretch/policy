@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-ServiceBus",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Service Bus",
@@ -98,5 +97,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-ServiceBus"
 }

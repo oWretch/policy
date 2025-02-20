@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-ContainerRegistry",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Container Registry",
@@ -254,5 +253,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-ContainerRegistry"
 }

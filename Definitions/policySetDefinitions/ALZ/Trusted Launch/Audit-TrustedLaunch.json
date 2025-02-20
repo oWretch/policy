@@ -1,5 +1,4 @@
 {
-  "name": "Audit-TrustedLaunch",
   "properties": {
     "policyType": "Custom",
     "displayName": "Audit virtual machines for Trusted Launch support",
@@ -54,5 +53,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Audit-TrustedLaunch"
 }

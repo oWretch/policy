@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-CosmosDb",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Cosmos DB",
@@ -123,5 +122,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-CosmosDb"
 }

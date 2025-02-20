@@ -1,5 +1,4 @@
 {
-  "name": "Deploy-AUM-CheckUpdates",
   "properties": {
     "policyType": "Custom",
     "displayName": "Configure periodic checking for missing system updates on azure virtual machines and Arc-enabled virtual machines",
@@ -150,5 +149,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Deploy-AUM-CheckUpdates"
 }

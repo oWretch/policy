@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Encryption-CMK",
   "properties": {
     "policyType": "Custom",
     "displayName": "[Deprecated]: Deny or Audit resources without Encryption with a customer-managed key (CMK)",
@@ -675,5 +674,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Encryption-CMK"
 }
