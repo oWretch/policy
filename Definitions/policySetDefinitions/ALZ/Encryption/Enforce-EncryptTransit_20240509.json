@@ -1,4 +1,5 @@
 {
+  "name": "Enforce-EncryptTransit_20240509",
   "properties": {
     "policyType": "Custom",
     "displayName": "[Deprecated]: Deny or Deploy and append TLS requirements and SSL enforcement on resources without Encryption in transit",
@@ -970,6 +971,5 @@
       }
     ],
     "policyDefinitionGroups": null
-  },
-  "name": "Enforce-EncryptTransit_20240509"
+  }
 }

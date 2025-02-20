@@ -1,4 +1,5 @@
 {
+  "name": "Deploy-Sql-Security",
   "properties": {
     "policyType": "Custom",
     "displayName": "[Deprecated]: Deploy SQL Database built-in SQL security configuration",
@@ -128,6 +129,5 @@
       }
     ],
     "policyDefinitionGroups": null
-  },
-  "name": "Deploy-Sql-Security"
+  }
 }

@@ -1,4 +1,5 @@
 {
+  "name": "Deploy-MDFC-DefenderSQL-AMA",
   "properties": {
     "policyType": "Custom",
     "displayName": "[Deprecated]: Configure SQL VM and Arc-enabled SQL Servers to install Microsoft Defender for SQL and AMA with a user-defined LAW",
@@ -231,6 +232,5 @@
       }
     ],
     "policyDefinitionGroups": null
-  },
-  "name": "Deploy-MDFC-DefenderSQL-AMA"
+  }
 }

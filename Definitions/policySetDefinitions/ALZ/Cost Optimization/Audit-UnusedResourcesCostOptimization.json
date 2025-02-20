@@ -1,4 +1,5 @@
 {
+  "name": "Audit-UnusedResourcesCostOptimization",
   "properties": {
     "policyType": "Custom",
     "displayName": "Unused resources driving cost should be avoided",
@@ -98,6 +99,5 @@
       }
     ],
     "policyDefinitionGroups": null
-  },
-  "name": "Audit-UnusedResourcesCostOptimization"
+  }
 }
