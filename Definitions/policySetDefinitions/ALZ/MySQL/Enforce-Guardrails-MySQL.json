@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-MySQL",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for MySQL",
@@ -58,5 +57,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-MySQL"
 }

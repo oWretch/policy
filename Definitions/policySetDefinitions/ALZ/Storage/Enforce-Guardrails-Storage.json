@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-Storage",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Storage Account",
@@ -477,5 +476,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Storage"
 }

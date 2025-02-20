@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-Synapse",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Synapse workspaces",
@@ -203,5 +202,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Synapse"
 }

@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-APIM",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for API Management",
@@ -238,5 +237,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-APIM"
 }

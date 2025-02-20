@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-Compute",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Compute",
@@ -59,5 +58,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Compute"
 }

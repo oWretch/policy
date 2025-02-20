@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-Kubernetes",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Kubernetes",
@@ -353,5 +352,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Kubernetes"
 }

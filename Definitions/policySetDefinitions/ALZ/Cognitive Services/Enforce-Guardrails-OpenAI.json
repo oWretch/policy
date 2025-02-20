@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-OpenAI",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Open AI (Cognitive Service)",
@@ -234,5 +233,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-OpenAI"
 }

@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-Automation",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Automation Account",
@@ -136,5 +135,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Automation"
 }

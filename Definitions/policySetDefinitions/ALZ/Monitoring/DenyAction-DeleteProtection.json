@@ -1,5 +1,4 @@
 {
-  "name": "DenyAction-DeleteProtection",
   "properties": {
     "policyType": "Custom",
     "displayName": "DenyAction Delete - Activity Log Settings and Diagnostic Settings",
@@ -32,5 +31,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "DenyAction-DeleteProtection"
 }

@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-AppServices",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for App Service",
@@ -379,5 +378,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-AppServices"
 }

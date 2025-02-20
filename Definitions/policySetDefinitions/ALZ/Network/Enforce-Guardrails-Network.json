@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-Guardrails-Network",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce recommended guardrails for Network and Networking services",
@@ -544,5 +543,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-Guardrails-Network"
 }

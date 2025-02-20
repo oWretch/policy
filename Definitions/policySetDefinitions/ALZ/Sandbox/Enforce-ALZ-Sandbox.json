@@ -1,5 +1,4 @@
 {
-  "name": "Enforce-ALZ-Sandbox",
   "properties": {
     "policyType": "Custom",
     "displayName": "Enforce policies in the Sandbox Landing Zone",
@@ -79,5 +78,6 @@
       }
     ],
     "policyDefinitionGroups": null
-  }
+  },
+  "name": "Enforce-ALZ-Sandbox"
 }
