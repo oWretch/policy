@@ -159,11 +159,7 @@
     "AGWUnhealthyHostCountWindowSize": "PT5M"
   },
   "scope": {
-    "LandingZone-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones"
-    ],
-    "LandingZone-Prod": [
-      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones"
-    ]
+    "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-landingzones"],
+    "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-landingzones"]
   }
 }

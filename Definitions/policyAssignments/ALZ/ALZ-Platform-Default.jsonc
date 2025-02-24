@@ -2,12 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Platform/",
     "scope": {
-        "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-platform"
-        ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-platform"
-        ]
+        "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-platform"],
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-platform"]
     },
     // Ensure that this whole file is reviewed for parameters and ensure DCRs, managed identities, and log analytics workspace are deployed
     // Sources for the DCRs which need to be deployed are in the individual assignment parameter comments

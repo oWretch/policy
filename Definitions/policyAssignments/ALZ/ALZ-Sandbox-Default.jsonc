@@ -2,12 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Sandbox/",
     "scope": {
-        "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-sandbox"
-        ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-sandbox"
-        ]
+        "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-sandbox"],
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-sandbox"]
     },
     "children": [
         {

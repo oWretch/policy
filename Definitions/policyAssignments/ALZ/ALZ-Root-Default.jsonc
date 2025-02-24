@@ -2,18 +2,10 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Root/",
     "scope": {
-        "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|"
-        ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|"
-        ],
-        "Security-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-security"
-        ],
-        "Security-Prod": [
-            "/providers/Microsoft.Management/managementGroups/security"
-        ]
+        "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg"],
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg"],
+        "Security-Dev": ["/providers/Microsoft.Management/managementGroups/dev-security"],
+        "Security-Prod": ["/providers/Microsoft.Management/managementGroups/security"]
     },
     "parameters": {
         "logAnalytics": "", // Replace with your central Log Analytics workspace ID

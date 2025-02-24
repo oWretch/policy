@@ -1,12 +1,12 @@
 {
   "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/global-settings-schema.json",
-  "pacOwnerId": "|pacOwnerId|",
+  "pacOwnerId": "2946427e-0d7e-4928-a3d6-fefa68bfee19",
   "pacEnvironments": [
     {
       "pacSelector": "LandingZone-Dev",
       "cloud": "AzureCloud",
-      "tenantId": "|tenantId|",
-      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|",
+      "tenantId": "69d7bce1-9e62-4c9d-a01c-278868949478",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/dev-sdg",
       "desiredState": {
         "strategy": "full",
         "keepDfcSecurityAssignments": false,
@@ -17,8 +17,8 @@
     {
       "pacSelector": "LandingZone-Prod",
       "cloud": "AzureCloud",
-      "tenantId": "|tenantId|",
-      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|",
+      "tenantId": "69d7bce1-9e62-4c9d-a01c-278868949478",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/sdg",
       "desiredState": {
         "strategy": "full",
         "keepDfcSecurityAssignments": false,
@@ -29,7 +29,7 @@
     {
       "pacSelector": "Security-Dev",
       "cloud": "AzureCloud",
-      "tenantId": "|tenantId|",
+      "tenantId": "69d7bce1-9e62-4c9d-a01c-278868949478",
       "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/dev-security",
       "desiredState": {
         "strategy": "full",
@@ -41,7 +41,7 @@
     {
       "pacSelector": "Security-Prod",
       "cloud": "AzureCloud",
-      "tenantId": "|tenantId|",
+      "tenantId": "69d7bce1-9e62-4c9d-a01c-278868949478",
       "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/security",
       "desiredState": {
         "strategy": "full",

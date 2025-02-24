@@ -74,11 +74,7 @@
     "ALZMonitorDisableTagName": "MonitorDisable"
   },
   "scope": {
-    "LandingZone-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-identity"
-    ],
-    "LandingZone-Prod": [
-      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-identity"
-    ]
+    "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-identity"],
+    "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-identity"]
   }
 }
