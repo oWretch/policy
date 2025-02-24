@@ -1,7 +1,7 @@
 trailingComma: all
 tabWidth: 2
 endOfLine: lf
-printWidth: 80
+printWidth: 100
 proseWrap: always
 overrides:
   - files: Definitions/policyAssignments/ALZ/**/*.jsonc

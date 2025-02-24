@@ -3,5 +3,6 @@
     "asciidoc": true
   },
   "ensure_final_newline_on_save": true,
-  "format_on_save": "on"
+  "format_on_save": "on",
+  "preferred_line_length": 100
 }
