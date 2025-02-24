@@ -1,0 +1,69 @@
+name: Generate Documentation
+
+on:
+  schedule:
+    - cron: "24 20 * * *"
+  workflow_run:
+    workflows:
+      - Deploy Policy Changes
+    types:
+      - completed
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  generate:
+    name: Document EPAC Policies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{github.repository}}.wiki
+          path: wiki
+
+      - name: Install Required Modules
+        uses: azure/powershell@v2
+        with:
+          inlineScript: |
+            Install-Module EnterprisePolicyAsCode -Force
+            Install-Module Az.ResourceGraph -Force
+          azPSVersion: latest
+
+      - name: Build Documentation
+        uses: azure/powershell@v2
+        with:
+          inlineScript: |
+            Build-PolicyDocumentation
+
+            Remove-Item -Path 'wiki/*' `
+                        -Recurse -Force
+
+            Get-ChildItem -Path "$env:PAC_OUTPUT_FOLDER/policy-documentation" |
+              ForEach-Object {
+                Move-Item -Path $_.Name -Destination 'wiki/'
+              }
+
+            # Detect if we have changes
+            Write-Host 'Checking for changes'
+            Push-Location 'wiki'
+            (git add '${{ parameters.documentationPath }}' && git diff --quiet && git diff --cached --quiet) ||
+              Write-Host "##vso[task.setvariable variable=deployDocumentationChanges]yes"
+          azPSVersion: latest
+
+      - name: Configure Git
+        if: deployDocumentationChanges == 'yes'
+        run: |
+          cd wiki
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Publish to Wiki
+        if: deployDocumentationChanges == 'yes'
+        run: |
+          cd wiki
+          # Commit the changes
+          git add .
+          git commit -m "Update EPAC documentation`n`n[skip ci]"
+          git push

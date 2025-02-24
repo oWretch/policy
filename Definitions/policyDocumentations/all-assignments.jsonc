@@ -1,0 +1,92 @@
+{
+  "documentAssignments": {
+    "documentAllAssignments": [
+      // Only document the production assignments
+      {
+        "pacEnvironment": "LandingZone-Prod",
+        "fileNameStemPrefix": "lz",
+        "skipPolicyAssignments": [],
+        "skipPolicyDefinitions": [],
+        "overrideEnvironmentCategory": {
+          "Sandbox": [
+            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-sandbox",
+          ],
+        },
+      },
+      {
+        "pacEnvironment": "Security-Prod",
+        "fileNameStemPrefix": "sec",
+        "skipPolicyAssignments": [],
+        "skipPolicyDefinitions": [],
+        "overrideEnvironmentCategory": {},
+      },
+    ],
+    "documentationSpecifications": [
+      {
+        "fileNameStem": "policy-effects-across-environments",
+        "title": "Azure Policy effects",
+        "markdownIncludeComplianceGroupNames": true,
+        "markdownSuppressParameterSection": false,
+        "markdownMaxParameterLength": 42,
+      },
+    ],
+  },
+  "documentPolicySets": [
+    {
+      "pacEnvironment": "LandingZone",
+      "fileNameStem": "lz-compliance-policy-sets",
+      "title": "Compliance Policy Sets - Landing Zone",
+      "policySets": [
+        {
+          // Azure Security Benchmark v3
+          "shortName": "ASB",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+        },
+        {
+          // CIS Azure Foundation Benchmark v2.0.0
+          "shortName": "CIS Azure Foundation Benchmark",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/06f19060-9e68-4070-92ca-f15cc126059e",
+        },
+        {
+          // ASD ISM PROTECTED
+          "shortName": "ISM PROTECTED",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/27272c0b-c225-4cc3-b8b0-f2534b093077",
+        },
+        {
+          // ISO 27001:2013
+          "shortName": "ISO 27001",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/89c6cddc-1c73-4ac1-b19c-54d1a15a42f2",
+        },
+      ],
+      "environmentColumnsInCsv": ["Production", "Sandbox"],
+    },
+    {
+      "pacEnvironment": "Security",
+      "fileNameStem": "sec-compliance-policy-sets",
+      "title": "Compliance Policy Sets - Security",
+      "policySets": [
+        {
+          // Azure Security Benchmark v3
+          "shortName": "ASB",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+        },
+        {
+          // CIS Azure Foundation Benchmark v2.0.0
+          "shortName": "CIS Azure Foundation Benchmark",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/06f19060-9e68-4070-92ca-f15cc126059e",
+        },
+        {
+          // ASD ISM PROTECTED
+          "shortName": "ISM PROTECTED",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/27272c0b-c225-4cc3-b8b0-f2534b093077",
+        },
+        {
+          // ISO 27001:2013
+          "shortName": "ISO 27001",
+          "id": "/providers/Microsoft.Authorization/policySetDefinitions/89c6cddc-1c73-4ac1-b19c-54d1a15a42f2",
+        },
+      ],
+      "environmentColumnsInCsv": ["Security"],
+    },
+  ],
+}

@@ -1,0 +1,62 @@
+name: "Reusable Workflow: Deploy Roles"
+
+on:
+  workflow_call:
+    inputs:
+      pacEnvironmentSelector:
+        required: true
+        type: string
+      planRunId:
+        required: true
+        type: string
+      PAC_INPUT_FOLDER:
+        required: false
+        type: string
+        default: ./Output
+      PAC_DEFINITIONS_FOLDER:
+        required: false
+        type: string
+        default: ./Definitions
+
+env:
+  PAC_DEFINITIONS_FOLDER: ${{ inputs.PAC_DEFINITIONS_FOLDER }}
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.pacEnvironmentSelector }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: plans-${{ inputs.pacEnvironmentSelector }}
+          path: ${{ inputs.PAC_INPUT_FOLDER }}
+          run-id: planRunId
+
+      - name: Install Required Modules
+        uses: azure/powershell@v2
+        with:
+          inlineScript: |
+            Install-Module EnterprisePolicyAsCode -Force
+          azPSVersion: latest
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          enable-AzPSSession: true
+          allow-no-subscriptions: true
+
+      - name: Deploy Roles
+        uses: azure/powershell@v2
+        with:
+          inlineScript: |
+            Deploy-RolesPlan `
+              -PacEnvironmentSelector ${{ inputs.pacEnvironmentSelector }} `
+              -InformationAction Continue
+          azPSVersion: latest

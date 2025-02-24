@@ -1,0 +1,108 @@
+name: Security
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+    paths:
+      - "Definitions/**"
+      - ".github/workflows/**"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  get_artifact:
+    name: Plans
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    defaults:
+      run:
+        shell: pwsh
+    outputs:
+      deployPolicyChanges: ${{ steps.checkPlans.outputs.policyChanges }}
+      deployRoleChanges: ${{ steps.checkPlans.outputs.roleChanges }}
+      planRunId: ${{ steps.getPlan.outputs.result }}
+    steps:
+      - name: Get Latest Plan Run
+        uses: actions/github-script@v7
+        id: getPlan
+        with:
+          script: |
+            # Get the latest workflow run for the policy plan
+            # for the branch that was merged.
+            # This will be used to get the artifact details.
+            const runs = (await github.rest.actions.listWorkflowRuns({
+              owner : context.repo.owner,
+              repo : context.repo.repo,
+              workflow_id: 'pr-plan-sec.yml',
+              branch: context.head_ref,
+            })).data.workflow_runs;
+
+            if (runs.length < 1) {
+              core.setFailed('No runs found');
+            }
+
+            if runs.length > 1 {
+              core.setFailed('Multiple runs found');
+            }
+
+            if runs[0].status !== 'success' {
+              core.setFailed('Latest run is not completed successfully');
+            }
+
+            return runs.id;
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: plans-Security-Prod
+          run-id: planRunId
+
+      - name: Check Plans
+        id: checkPlans
+        run: |
+          Write-Host "Checking Plans"
+
+          if (Test-Path '${{ github.workspace }}/plans-Security-Prod/policy-plan.json' -Type Leaf) {
+            Write-Host "Policy Changes Found"
+            'policyChanges=yes' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          } else {
+            Write-Host "No Policy Changes Found"
+            'policyChanges=no' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          }
+
+          if (Test-Path '${{ github.workspace }}/plans-Security-Prod/roles-plan.json' -Type Leaf) {
+            Write-Host "Role Changes Found"
+            'roleChanges=yes' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          } else {
+            Write-Host "No Role Changes Found"
+            'roleChanges=no' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          }
+
+  policies:
+    name: Policy Changes
+    uses: ./.github/workflows/tpl-deploy-policy.yml
+    needs:
+      - get_artifact
+    if: needs.get_artifact.outputs.deployPolicyChanges == 'yes'
+    with:
+      pacEnvironmentSelector: Security-Prod
+      planRunId: ${{ needs.get_artifact.outputs.planRunId }}
+    secrets: inherit
+
+  roles:
+    name: Role Changes
+    uses: ./.github/workflows/tpl-deploy-roles.yml
+    needs:
+      - get_artifact
+      - lz_policies
+    if: ${{ ! failure() && ! cancelled() && needs.get_artifact.outputs.deployRoleChanges == 'yes' }}
+    with:
+      pacEnvironmentSelector: Security-Prod
+      planRunId: ${{ needs.get_artifact.outputs.planRunId }}
+    secrets: inherit

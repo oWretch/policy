@@ -1,0 +1,46 @@
+# This pipeline is used to plan production deployment, and validate development
+# deployment of Policies, Initiative definitions and Assignments into Azure.
+name: Security Dev
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Definitions/**"
+      - ".github/workflows/**"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  plan:
+    name: Plan
+    uses: ./.github/workflows/tpl-plan.yml
+    with:
+      pacEnvironmentSelector: Security-Dev
+    secrets: inherit
+
+  policies:
+    name: Policies
+    needs: plan
+    if: needs.plan.outputs.deployPolicyChanges == 'yes'
+    uses: ./.github/workflows/tpl-deploy-policy.yml
+    with:
+      pacEnvironmentSelector: Security-Dev
+      planRunId: ${{ github.run_id }}
+    secrets: inherit
+
+  roles:
+    name: Roles
+    needs:
+      - plan
+      - policies
+    if: ${{ ! failure() && ! cancelled() && needs.plan.outputs.deployRoleChanges == 'yes' }}
+    uses: ./.github/workflows/tpl-deploy-roles.yml
+    with:
+      pacEnvironmentSelector: Security-Dev
+      planRunId: ${{ github.run_id }}
+    secrets: inherit

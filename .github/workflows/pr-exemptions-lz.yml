@@ -1,0 +1,30 @@
+# This pipeline is used to plan exemptions in a pull request
+name: Plan Landing Zone Exemptions
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "Definitions/policyExemptions/**"
+      - ".github/workflows/**"
+
+env:
+  PAC_OUTPUT_FOLDER: ./Output
+  PAC_DEFINITIONS_FOLDER: ./Definitions
+
+permissions:
+  contents: read
+  id-token: write
+
+# Exemptions can only apply where there are actual resources.
+# So there is no need to run for the Development environments as any
+# configured deployment will not happen as the resources do not exist.
+jobs:
+  plan:
+    name: Plan Exemptions
+    uses: ./.github/workflows/tpl-plan-exemptions-only.yml
+    with:
+      pacEnvironmentSelector: LandingZone-Prod
+    secrets: inherit
