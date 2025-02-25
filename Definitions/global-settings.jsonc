@@ -6,7 +6,7 @@
       "pacSelector": "LandingZone-Dev",
       "cloud": "AzureCloud",
       "tenantId": "|tenantId|",
-      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/epacdev-|IntermediateRootManagementGroup|",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|",
       "desiredState": {
         "strategy": "full",
         "keepDfcSecurityAssignments": false,
@@ -30,7 +30,7 @@
       "pacSelector": "Security-Dev",
       "cloud": "AzureCloud",
       "tenantId": "|tenantId|",
-      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/epacdev-security",
+      "deploymentRootScope": "/providers/Microsoft.Management/managementGroups/dev-security",
       "desiredState": {
         "strategy": "full",
         "keepDfcSecurityAssignments": false,
