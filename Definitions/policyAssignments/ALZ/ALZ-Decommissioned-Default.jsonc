@@ -20,7 +20,7 @@
             },
             "parameters": {
                 "listOfResourceTypesAllowed": [
-                    // "microsoft.consumption/tags",
+                    "microsoft.consumption/tags",
                     "microsoft.authorization/roleassignments",
                     "microsoft.authorization/roledefinitions",
                     "microsoft.authorization/policyassignments",
