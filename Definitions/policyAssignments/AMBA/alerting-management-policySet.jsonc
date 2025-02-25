@@ -68,17 +68,9 @@
     "LAWDailyCapLimitOperator": "GreaterThan"
   },
   "scope": {
-    "LandingZone-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-management"
-    ],
-    "LandingZone-Prod": [
-      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-management"
-    ],
-    "Security-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-security"
-    ],
-    "Security-Prod": [
-      "/providers/Microsoft.Management/managementGroups/security"
-    ]
+    "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-management"],
+    "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-management"],
+    "Security-Dev": ["/providers/Microsoft.Management/managementGroups/dev-security"],
+    "Security-Prod": ["/providers/Microsoft.Management/managementGroups/security"]
   }
 }

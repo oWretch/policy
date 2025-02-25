@@ -3,11 +3,9 @@
     "nodeName": "/Decommissioned/",
     "scope": {
         "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-decommissioned"
+            "/providers/Microsoft.Management/managementGroups/dev-sdg-decommissioned"
         ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-decommissioned"
-        ]
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-decommissioned"]
     },
     "children": [
         {

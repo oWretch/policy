@@ -3,11 +3,9 @@
     "nodeName": "/Connectivity/",
     "scope": {
         "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-connectivity"
+            "/providers/Microsoft.Management/managementGroups/dev-sdg-connectivity"
         ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-connectivity"
-        ]
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-connectivity"]
     },
     "parameters": {
         "ddosPlan": "" // Replace with DDOS plan Id

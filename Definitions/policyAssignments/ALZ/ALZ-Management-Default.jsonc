@@ -2,12 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Management/",
     "scope": {
-        "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-management"
-        ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-management"
-        ]
+        "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-management"],
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-management"]
     },
     "parameters": {
         "workspaceRegion": "", // Replace with your primary region

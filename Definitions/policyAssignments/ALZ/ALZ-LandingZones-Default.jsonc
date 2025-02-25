@@ -3,11 +3,9 @@
     "nodeName": "/LandingZones/",
     "scope": {
         "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones"
+            "/providers/Microsoft.Management/managementGroups/dev-sdg-landingzones"
         ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones"
-        ]
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-landingzones"]
     },
     "parameters": {
         // The policies deployed at this scope deploy a managed identity - which is then used in the monitoring policies - you can use the same identity for the monitoring policies deployed at the platform level.

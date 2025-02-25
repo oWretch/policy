@@ -2,12 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Identity/",
     "scope": {
-        "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-identity"
-        ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-identity"
-        ]
+        "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-identity"],
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-identity"]
     },
     "children": [
         {
@@ -25,9 +21,7 @@
                         "displayName": "Not allowed resource types"
                     },
                     "parameters": {
-                        "listOfResourceTypesNotAllowed": [
-                            "Microsoft.Network/publicIPAddresses"
-                        ],
+                        "listOfResourceTypesNotAllowed": ["Microsoft.Network/publicIPAddresses"],
                         "effect": "Deny"
                     },
                     "nonComplianceMessages": [

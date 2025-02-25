@@ -53,18 +53,14 @@
   },
   "scope": {
     "LandingZone-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-landingzones",
-      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-platform"
+      "/providers/Microsoft.Management/managementGroups/dev-sdg-landingzones",
+      "/providers/Microsoft.Management/managementGroups/dev-sdg-platform"
     ],
     "LandingZone-Prod": [
-      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-landingzones",
-      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-platform"
+      "/providers/Microsoft.Management/managementGroups/sdg-landingzones",
+      "/providers/Microsoft.Management/managementGroups/sdg-platform"
     ],
-    "Security-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-security"
-    ],
-    "Security-Prod": [
-      "/providers/Microsoft.Management/managementGroups/security"
-    ]
+    "Security-Dev": ["/providers/Microsoft.Management/managementGroups/dev-security"],
+    "Security-Prod": ["/providers/Microsoft.Management/managementGroups/security"]
   }
 }

@@ -45,17 +45,9 @@
     "BYOActionGroup": []
   },
   "scope": {
-    "LandingZone-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|"
-    ],
-    "LandingZone-Prod": [
-      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|"
-    ],
-    "Security-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-security"
-    ],
-    "Security-Prod": [
-      "/providers/Microsoft.Management/managementGroups/security"
-    ]
+    "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg"],
+    "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg"],
+    "Security-Dev": ["/providers/Microsoft.Management/managementGroups/dev-security"],
+    "Security-Prod": ["/providers/Microsoft.Management/managementGroups/security"]
   }
 }

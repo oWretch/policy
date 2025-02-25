@@ -8,9 +8,7 @@
         "skipPolicyAssignments": [],
         "skipPolicyDefinitions": [],
         "overrideEnvironmentCategory": {
-          "Sandbox": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-sandbox",
-          ],
+          "Sandbox": ["/providers/Microsoft.Management/managementGroups/sdg-sandbox"],
         },
       },
       {

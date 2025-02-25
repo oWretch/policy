@@ -299,11 +299,7 @@
     "PDNSZRegistrationCapacityUtilEvaluationFrequency": "PT1H"
   },
   "scope": {
-    "LandingZone-Dev": [
-      "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-connectivity"
-    ],
-    "LandingZone-Prod": [
-      "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-connectivity"
-    ]
+    "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-connectivity"],
+    "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-connectivity"]
   }
 }

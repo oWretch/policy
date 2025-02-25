@@ -2,12 +2,8 @@
     "$schema": "https://raw.githubusercontent.com/Azure/enterprise-azure-policy-as-code/main/Schemas/policy-assignment-schema.json",
     "nodeName": "/Corp/",
     "scope": {
-        "LandingZone-Dev": [
-            "/providers/Microsoft.Management/managementGroups/dev-|IntermediateRootManagementGroup|-corp"
-        ],
-        "LandingZone-Prod": [
-            "/providers/Microsoft.Management/managementGroups/|IntermediateRootManagementGroup|-corp"
-        ]
+        "LandingZone-Dev": ["/providers/Microsoft.Management/managementGroups/dev-sdg-corp"],
+        "LandingZone-Prod": ["/providers/Microsoft.Management/managementGroups/sdg-corp"]
     },
     "children": [
         {
