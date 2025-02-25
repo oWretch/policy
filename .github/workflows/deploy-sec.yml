@@ -1,7 +1,7 @@
 name: Security
 
 on:
-  push:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
@@ -100,7 +100,7 @@ jobs:
     uses: ./.github/workflows/tpl-deploy-roles.yml
     needs:
       - get_artifact
-      - lz_policies
+      - policies
     if: ${{ ! failure() && ! cancelled() && needs.get_artifact.outputs.deployRoleChanges == 'yes' }}
     with:
       pacEnvironmentSelector: Security-Prod
