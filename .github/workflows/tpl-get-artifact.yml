@@ -1,0 +1,80 @@
+name: "Reusable Workflow: Deploy Roles"
+
+on:
+  workflow_call:
+    inputs:
+      pr-workflow:
+        required: true
+        type: string
+      pacEnvironmentSelector:
+        required: true
+        type: string
+
+jobs:
+  get_artifact:
+    name: Get
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    outputs:
+      deployPolicyChanges: ${{ steps.checkPlans.outputs.policyChanges }}
+      deployRoleChanges: ${{ steps.checkPlans.outputs.roleChanges }}
+      planRunId: ${{ steps.getPlan.outputs.result }}
+
+    steps:
+      - name: Get Latest Plan Run
+        uses: actions/github-script@v7
+        id: getPlan
+        with:
+          script: |
+            // Get the latest workflow run for the policy plan
+            // for the branch that was merged.
+            // This will be used to get the artifact details.
+            const runs = (await github.rest.actions.listWorkflowRuns({
+              owner : context.repo.owner,
+              repo : context.repo.repo,
+              workflow_id: '${{ inputs.pr-workflow }}',
+              branch: context.head_ref,
+            })).data.workflow_runs;
+
+            if (runs.length < 1) {
+              core.setFailed('No runs found');
+            }
+
+            if runs.length > 1 {
+              core.setFailed('Multiple runs found');
+            }
+
+            if runs[0].status !== 'success' {
+              core.setFailed('Latest run is not completed successfully');
+            }
+
+            return runs.id;
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: plans-${{ inputs.pacEnvironmentSelector }}
+          run-id: planRunId
+
+      - name: Check Plans
+        id: checkPlans
+        run: |
+          Write-Host "Checking Plans"
+
+          if (Test-Path '${{ github.workspace }}/plans-${{ inputs.pacEnvironmentSelector }}/policy-plan.json' -Type Leaf) {
+            Write-Host "Policy Changes Found"
+            'policyChanges=yes' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          } else {
+            Write-Host "No Policy Changes Found"
+            'policyChanges=no' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          }
+
+          if (Test-Path '${{ github.workspace }}/plans-${{ inputs.pacEnvironmentSelector }}/roles-plan.json' -Type Leaf) {
+            Write-Host "Role Changes Found"
+            'roleChanges=yes' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          } else {
+            Write-Host "No Role Changes Found"
+            'roleChanges=no' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+          }
