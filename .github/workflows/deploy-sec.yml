@@ -8,21 +8,21 @@ on:
     types:
       - closed
     paths:
-      - "Definitions/**"
-      - ".github/workflows/**"
+      - Definitions/**
+      - .github/workflows/**
 
 permissions:
   contents: read
   id-token: write
 
 jobs:
-  # plan:
-  #   name: Plan
-  #   uses: ./.github/workflows/tpl-plan.yml
-  #   if: github.event_name == 'workflow_dispatch'
-  #   with:
-  #     pacEnvironmentSelector: Security-Prod
-  #   secrets: inherit
+  plan:
+    name: Plan
+    uses: ./.github/workflows/tpl-plan.yml
+    if: github.event_name == 'workflow_dispatch'
+    with:
+      pacEnvironmentSelector: Security-Prod
+    secrets: inherit
 
   get_artifact:
     name: Plans
@@ -36,21 +36,47 @@ jobs:
     name: Policy Changes
     uses: ./.github/workflows/tpl-deploy-policy.yml
     needs:
+      - plan
       - get_artifact
-    if: needs.get_artifact.outputs.deployPolicyChanges == 'yes'
+    if: >
+      ${{
+        always()
+        && (
+          needs.plan.result == 'success'
+          || needs.get_artifact.result == 'success'
+        )
+        && (
+          needs.plan.outputs.deployPolicyChanges == 'yes'
+          || needs.get_artifact.outputs.deployPolicyChanges == 'yes'
+        )
+      }}
     with:
       pacEnvironmentSelector: Security-Prod
-      planRunId: ${{ needs.get_artifact.outputs.planRunId }}
     secrets: inherit
 
   roles:
     name: Role Changes
     uses: ./.github/workflows/tpl-deploy-roles.yml
     needs:
+      - plan
       - get_artifact
       - policies
-    if: ${{ ! failure() && ! cancelled() && needs.get_artifact.outputs.deployRoleChanges == 'yes' }}
+    if: >
+      ${{
+        always()
+        && (
+          needs.policies.result == 'success'
+          || needs.policies.result == 'skipped'
+        )
+        && (
+          needs.plan.result == 'success'
+          || needs.get_artifact.result == 'success'
+        )
+        && (
+          needs.plan.outputs.deployRoleChanges == 'yes'
+          || needs.get_artifact.outputs.deployRoleChanges == 'yes'
+        )
+      }}
     with:
       pacEnvironmentSelector: Security-Prod
-      planRunId: ${{ needs.get_artifact.outputs.planRunId }}
     secrets: inherit

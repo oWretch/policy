@@ -12,6 +12,7 @@ on:
       - ".github/workflows/**"
 
 permissions:
+  actions: read
   contents: read
   id-token: write
 
@@ -30,7 +31,6 @@ jobs:
     uses: ./.github/workflows/tpl-deploy-policy.yml
     with:
       pacEnvironmentSelector: Security-Dev
-      planRunId: ${{ github.run_id }}
     secrets: inherit
 
   roles:
@@ -42,5 +42,4 @@ jobs:
     uses: ./.github/workflows/tpl-deploy-roles.yml
     with:
       pacEnvironmentSelector: Security-Dev
-      planRunId: ${{ github.run_id }}
     secrets: inherit
