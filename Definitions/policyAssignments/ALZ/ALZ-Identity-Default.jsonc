@@ -22,7 +22,7 @@
                     },
                     "parameters": {
                         "listOfResourceTypesNotAllowed": ["Microsoft.Network/publicIPAddresses"],
-                        "effect": "Deny"
+                        "effect": "Audit"
                     },
                     "nonComplianceMessages": [
                         {

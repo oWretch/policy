@@ -23,7 +23,7 @@
                 "displayName": "Enable DDOS"
             },
             "parameters": {
-                "effect": "Modify"
+                "effect": "Disabled"
             },
             "nonComplianceMessages": [
                 {
