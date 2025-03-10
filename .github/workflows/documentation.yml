@@ -8,6 +8,7 @@ on:
       - Deploy Policy Changes
     types:
       - completed
+
 permissions:
   contents: read
   id-token: write
@@ -48,22 +49,23 @@ jobs:
             # Detect if we have changes
             Write-Host 'Checking for changes'
             Push-Location 'wiki'
-            (git add '${{ parameters.documentationPath }}' && git diff --quiet && git diff --cached --quiet) ||
+            if (git add . && git diff --quiet && git diff --cached --quiet) {
               Write-Host "##vso[task.setvariable variable=deployDocumentationChanges]yes"
+            } else {
+              Write-Host "##vso[task.setvariable variable=deployDocumentationChanges]no"
+            }
           azPSVersion: latest
-
-      - name: Configure Git
-        if: deployDocumentationChanges == 'yes'
-        run: |
-          cd wiki
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Publish to Wiki
         if: deployDocumentationChanges == 'yes'
         run: |
           cd wiki
+
+          # Configure Git
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
           # Commit the changes
           git add .
-          git commit -m "Update EPAC documentation`n`n[skip ci]"
+          git commit -m "Update EPAC documentation"
           git push
