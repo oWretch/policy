@@ -8,6 +8,8 @@
         "skipPolicyAssignments": [],
         "skipPolicyDefinitions": [],
         "overrideEnvironmentCategory": {
+          "Production": ["/providers/Microsoft.Management/managementGroups/sdg"],
+          "Decommissioned": ["/providers/Microsoft.Management/managementGroups/sdg-decommissioned"],
           "Sandbox": ["/providers/Microsoft.Management/managementGroups/sdg-sandbox"],
         },
       },
@@ -16,12 +18,15 @@
         "fileNameStemPrefix": "sec",
         "skipPolicyAssignments": [],
         "skipPolicyDefinitions": [],
-        "overrideEnvironmentCategory": {},
+        "overrideEnvironmentCategory": {
+          "Security": ["/providers/Microsoft.Management/managementGroups/sdg-security"],
+        },
       },
     ],
     "documentationSpecifications": [
       {
         "fileNameStem": "policy-effects-across-environments",
+        "environmentCategories": [],
         "title": "Azure Policy effects",
         "markdownIncludeComplianceGroupNames": true,
         "markdownSuppressParameterSection": false,
@@ -31,7 +36,7 @@
   },
   "documentPolicySets": [
     {
-      "pacEnvironment": "LandingZone",
+      "pacEnvironment": "LandingZone-Prod",
       "fileNameStem": "lz-compliance-policy-sets",
       "title": "Compliance Policy Sets - Landing Zone",
       "policySets": [
@@ -59,7 +64,7 @@
       "environmentColumnsInCsv": ["Production", "Sandbox"],
     },
     {
-      "pacEnvironment": "Security",
+      "pacEnvironment": "Security-Prod",
       "fileNameStem": "sec-compliance-policy-sets",
       "title": "Compliance Policy Sets - Security",
       "policySets": [

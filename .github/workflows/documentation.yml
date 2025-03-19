@@ -8,21 +8,32 @@ on:
       - Deploy Policy Changes
     types:
       - completed
+  workflow_dispatch:
+
+concurrency:
+  group: wiki
+  cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
   generate:
-    name: Document EPAC Policies
+    name: Document Policies
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
+      - name: Checkout EPAC
+        uses: actions/checkout@v4
+        with:
+          repository: ${{github.repository}}
+          path: ${{github.repository}}
+
+      - name: Checkout Wiki
+        uses: actions/checkout@v4
         with:
           repository: ${{github.repository}}.wiki
-          path: wiki
+          path: ${{github.repository}}.wiki
 
       - name: Install Required Modules
         uses: azure/powershell@v2
@@ -32,40 +43,28 @@ jobs:
             Install-Module Az.ResourceGraph -Force
           azPSVersion: latest
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          enable-AzPSSession: true
+          allow-no-subscriptions: true
+
       - name: Build Documentation
+        id: build-docs
         uses: azure/powershell@v2
         with:
           inlineScript: |
-            Build-PolicyDocumentation
-
-            Remove-Item -Path 'wiki/*' `
-                        -Recurse -Force
-
-            Get-ChildItem -Path "$env:PAC_OUTPUT_FOLDER/policy-documentation" |
-              ForEach-Object {
-                Move-Item -Path $_.Name -Destination 'wiki/'
-              }
-
-            # Detect if we have changes
-            Write-Host 'Checking for changes'
-            Push-Location 'wiki'
-            if (git add . && git diff --quiet && git diff --cached --quiet) {
-              Write-Host "##vso[task.setvariable variable=deployDocumentationChanges]yes"
-            } else {
-              Write-Host "##vso[task.setvariable variable=deployDocumentationChanges]no"
-            }
+            Set-Location (Join-Path $env:GITHUB_WORKSPACE '${{github.repository}}')
+            Build-PolicyDocumentation -PacSelector LandingZone-Prod `
+              -OutputFolder (Join-Path $env:GITHUB_WORKSPACE '${{github.repository}}.wiki/policy-documentation')
           azPSVersion: latest
 
       - name: Publish to Wiki
-        if: deployDocumentationChanges == 'yes'
+        working-directory: ${{github.repository}}.wiki
         run: |
-          cd wiki
-
-          # Configure Git
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-
-          # Commit the changes
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Update EPAC documentation"
-          git push
+          git diff-index --quiet HEAD || git commit -m "Update EPAC documentation" && git push
