@@ -17,6 +17,12 @@ jobs:
     defaults:
       run:
         shell: pwsh
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      id-token: write
+
     outputs:
       deployPolicyChanges: ${{ steps.checkPlans.outputs.policyChanges }}
       deployRoleChanges: ${{ steps.checkPlans.outputs.roleChanges }}
@@ -42,21 +48,19 @@ jobs:
               core.setFailed('No runs found');
             }
 
-            if runs.length > 1 {
-              core.setFailed('Multiple runs found');
-            }
-
-            if runs[0].status !== 'success' {
+            if (runs[0].conclusion !== 'success') {
               core.setFailed('Latest run is not completed successfully');
             }
 
-            return runs.id;
+            console.log(`Latest run id: ${runs[0].id}`);
+            return runs[0].id;
 
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: plans-${{ inputs.pacEnvironmentSelector }}
-          run-id: planRunId
+          run-id: ${{ steps.getPlan.outputs.result }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check Plans
         id: checkPlans
@@ -65,16 +69,29 @@ jobs:
 
           if (Test-Path '${{ github.workspace }}/plans-${{ inputs.pacEnvironmentSelector }}/policy-plan.json' -Type Leaf) {
             Write-Host "Policy Changes Found"
-            'policyChanges=yes' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+            'policyChanges=yes' | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           } else {
             Write-Host "No Policy Changes Found"
-            'policyChanges=no' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+            'policyChanges=no' | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           }
 
           if (Test-Path '${{ github.workspace }}/plans-${{ inputs.pacEnvironmentSelector }}/roles-plan.json' -Type Leaf) {
             Write-Host "Role Changes Found"
-            'roleChanges=yes' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+            'roleChanges=yes' | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           } else {
             Write-Host "No Role Changes Found"
-            'roleChanges=no' | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+            'roleChanges=no' | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           }
+
+      # Republish the artifact to make it easier for the next job to consume
+      - name: Upload Deployment Plan as Artifact
+        if: >
+          ${{
+            steps.checkPlans.outputs.policyChanges == 'yes' 
+            || steps.checkPlans.outputs.roleChanges == 'yes'
+          }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: "plans-${{ inputs.pacEnvironmentSelector }}"
+          path: ${{ github.workspace }}
+          if-no-files-found: error
