@@ -12,12 +12,14 @@ on:
       - .github/workflows/**
 
 permissions:
+  actions: read
+  checks: read
   contents: read
   id-token: write
 
 jobs:
   plan:
-    name: Plan
+    name: Plans
     uses: ./.github/workflows/tpl-plan.yml
     if: github.event_name == 'workflow_dispatch'
     with:
